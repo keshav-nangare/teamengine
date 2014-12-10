@@ -91,6 +91,16 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
   </servlet>
   
+  <servlet>
+    <servlet-name>TestGetMapResources</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>TestFinalResult</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+  </servlet>
+  
 <servlet>
     <servlet-name>TestSuiteController</servlet-name>
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -122,6 +132,14 @@
 <servlet-mapping>
     <servlet-name>TempRunResources</servlet-name>
     <url-pattern>/restTest/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestGetMapResources</servlet-name>
+    <url-pattern>/restMap/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestFinalResult</servlet-name>
+    <url-pattern>/restResult/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>test</servlet-name>

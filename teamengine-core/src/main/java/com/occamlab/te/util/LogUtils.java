@@ -206,7 +206,7 @@ public class LogUtils {
             return null;
         }
         Element test = owner.createElement("test");
-        int result = TECore.PASS;
+        int result = Constants.PASS;
         String type = "Mandatory";
         boolean complete = false;
         boolean childrenFailed = false;
@@ -228,7 +228,7 @@ public class LogUtils {
                 complete = true;
                 int code = Integer.parseInt(e.getAttribute("result"));
                 if (childrenFailed) {
-                    result = TECore.INHERITED_FAILURE;
+                    result = Constants.INHERITED_FAILURE;
                 } else {
                     result = code;
                 }
@@ -238,7 +238,7 @@ public class LogUtils {
                 if (child != null) {
                     child.setAttribute("path", newpath);
                     int code = Integer.parseInt(child.getAttribute("result"));
-                    if (code == TECore.FAIL || code == TECore.INHERITED_FAILURE) {
+                    if (code == Constants.FAIL || code == Constants.INHERITED_FAILURE) {
                         childrenFailed = true;
                     }
                     test.appendChild(child);
@@ -343,20 +343,20 @@ public class LogUtils {
                     updated = true;
                     int code = Integer.parseInt(newsubtest
                             .getAttribute("result"));
-                    if (code == TECore.FAIL || code == TECore.INHERITED_FAILURE) {
+                    if (code == Constants.FAIL || code == Constants.INHERITED_FAILURE) {
                         childrenFailed = true;
                     }
                 }
             }
             if (updated || testListDate == 0) {
                 int result = Integer.parseInt(test.getAttribute("result"));
-                int newresult = TECore.PASS;
-                if (result == TECore.FAIL) {
-                    newresult = TECore.FAIL;
+                int newresult = Constants.PASS;
+                if (result == Constants.FAIL) {
+                    newresult = Constants.FAIL;
                 } else if (childrenFailed) {
-                    newresult = TECore.INHERITED_FAILURE;
-                } else if (result == TECore.WARNING) {
-                    newresult = TECore.WARNING;
+                    newresult = Constants.INHERITED_FAILURE;
+                } else if (result == Constants.WARNING) {
+                    newresult = Constants.WARNING;
                 }
                 if (newresult != result) {
                     test.setAttribute("result", Integer.toString(newresult));

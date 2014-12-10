@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Element;
 
 import com.occamlab.te.TECore;
+import com.occamlab.te.util.Constants;
 
 /**
  * Describes a test in a test suite. It corresponds to a &lt;test&gt; element in
@@ -15,8 +16,8 @@ public class TestEntry extends TemplateEntry {
 
     private static final Logger LOGR = Logger.getLogger(TestEntry.class
             .getName());
-    int defaultResult = TECore.PASS;
-    int result = TECore.PASS;
+    int defaultResult = Constants.PASS;
+    int result = Constants.PASS;
     String context;
     String type;
     String assertion;
@@ -36,8 +37,8 @@ public class TestEntry extends TemplateEntry {
                 .getTextContent());
         String defaultResultName = test.getElementsByTagName("defaultResult")
                 .item(0).getTextContent();
-        setDefaultResult(defaultResultName.equals("BestPractice") ? TECore.BEST_PRACTICE
-                : TECore.PASS);
+        setDefaultResult(defaultResultName.equals("BestPractice") ? Constants.BEST_PRACTICE
+                : Constants.PASS);
         setResult(getDefaultResult());
     }
 
