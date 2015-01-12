@@ -29,17 +29,19 @@
       <div id="WMS-Client">
         <img src="images/minus.png" name="image1" id="WMS-Client__result" align="middle" onclick="toggleDiv(this);"/>
         <img src="images/warning.png" id="WMS-Client-result" align="middle" alt="Begin" />
-        <b>Test WMS-Client 1.3</b><xsl:text>&#xa;(</xsl:text>
-            <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=0">View Details</a>
-            <xsl:text>)</xsl:text>
+        <b>Test WMS-Client 1.3</b>
+        <xsl:text>&#xa;(</xsl:text>
+        <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=0">View Details</a>
+        <xsl:text>)</xsl:text>
       </div>
       <div id="WMS-Client_result">
         <div id="capability" style="margin-left:20px">
           <img src="images/minus.png" name="image1" id="capability__result" align="middle" onclick="toggleDiv(this);"></img>
           <img src="images/warning.png" id="capability_img" align="middle" alt="Begin" />
-          <b>Perform at least one GetCapabilities request</b><xsl:text>&#xa;(</xsl:text>
-            <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=1">View Details</a>
-            <xsl:text>)</xsl:text>
+          <b>Perform at least one GetCapabilities request</b>
+          <xsl:text>&#xa;(</xsl:text>
+          <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=1">View Details</a>
+          <xsl:text>)</xsl:text>
         </div>
         <div id="capability_result" style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;">
           <p id="2" style="margin-left:20px; margin-top: 0px;margin-bottom: 0px;"/>
@@ -48,15 +50,17 @@
         <div id="map" style="margin-left:20px">
           <img src="images/minus.png" name="image1" id="map__result" align="middle" onclick="toggleDiv(this);"></img>
           <img src="images/warning.png" id="map_img" align="middle" alt="Begin" />
-          <b>Perform GetMap request for all the layers</b><xsl:text>&#xa;(</xsl:text>
-            <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=2">View Details</a>
-            <xsl:text>)</xsl:text>
-          </div>
+          <b>Perform GetMap request for all the layers</b>
+          <xsl:text>&#xa;(</xsl:text>
+          <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=2">View Details</a>
+          <xsl:text>)</xsl:text>
+        </div>
         <div id="map_result">
                             
           <div id="Autos" style="margin-left:40px">
             <img src="images/warning.png" id="Autos_img" align="middle" alt="Begin" ></img>
-            <b>cite:Autos</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Autos</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=3">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -65,7 +69,8 @@
                             
           <div id="BasicPolygons" style="margin-left:40px">
             <img src="images/warning.png" id="BasicPolygons_img" align="middle" alt="Begin" ></img>
-            <b>cite:BasicPolygons</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:BasicPolygons</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=4">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -74,7 +79,8 @@
                                     
           <div id="Bridges" style="margin-left:40px">
             <img src="images/warning.png" id="Bridges_img" align="middle" alt="Begin" ></img>
-            <b>cite:Bridges</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Bridges</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=5">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -83,7 +89,8 @@
                             
           <div id="BuildingCenters" style="margin-left:40px">
             <img src="images/warning.png" id="BuildingCenters_img" align="middle" alt="Begin" ></img>
-            <b>cite:BuildingCenters</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:BuildingCenters</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=6">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -92,7 +99,8 @@
                             
           <div id="Buildings" style="margin-left:40px">
             <img src="images/warning.png" id="Buildings_img" align="middle" alt="Begin" ></img>
-            <b>cite:Buildings</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Buildings</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=7">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -101,7 +109,8 @@
                             
           <div id="DividedRoutes" style="margin-left:40px">
             <img src="images/warning.png" id="DividedRoutes_img" align="middle" alt="Begin" ></img>
-            <b>cite:DividedRoutes</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:DividedRoutes</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=8">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -110,7 +119,8 @@
                             
           <div id="Forests" style="margin-left:40px">
             <img src="images/warning.png" id="Forests_img" align="middle" alt="Begin" ></img>
-            <b>cite:Forests</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Forests</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=9">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -119,7 +129,8 @@
                             
           <div id="Lakes" style="margin-left:40px">
             <img src="images/warning.png" id="Lakes_img" align="middle" alt="Begin" ></img>
-            <b>cite:Lakes</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Lakes</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=10">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -128,7 +139,8 @@
                             
           <div id="MapNeatline" style="margin-left:40px">
             <img src="images/warning.png" id="MapNeatline_img" align="middle" alt="Begin" ></img>
-            <b>cite:MapNeatline</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:MapNeatline</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=11">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -137,7 +149,8 @@
                             
           <div id="NamedPlaces" style="margin-left:40px">
             <img src="images/warning.png" id="NamedPlaces_img" align="middle" alt="Begin" ></img>
-            <b>cite:NamedPlaces</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:NamedPlaces</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=12">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -146,7 +159,8 @@
                             
           <div id="Ponds" style="margin-left:40px">
             <img src="images/warning.png" id="Ponds_img" align="middle" alt="Begin" ></img>
-            <b>cite:Ponds</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Ponds</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=13">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -155,7 +169,8 @@
                             
           <div id="RoadSegments" style="margin-left:40px">
             <img src="images/warning.png" id="RoadSegments_img" align="middle" alt="Begin" ></img>
-            <b>cite:RoadSegments</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:RoadSegments</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=14">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -164,7 +179,8 @@
                             
           <div id="Streams" style="margin-left:40px">
             <img src="images/warning.png" id="Streams_img" align="middle" alt="Begin" ></img>
-            <b>cite:Streams</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Streams</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=15">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -173,7 +189,8 @@
                             
           <div id="Terrain" style="margin-left:40px">
             <img src="images/warning.png" id="Terrain_img" align="middle" alt="Begin" ></img>
-            <b>cite:Terrain</b><xsl:text>&#xa;(</xsl:text>
+            <b>cite:Terrain</b>
+            <xsl:text>&#xa;(</xsl:text>
             <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=16">View Details</a>
             <xsl:text>)</xsl:text>
           </div>
@@ -185,9 +202,10 @@
         <div id="feature" style="margin-left:20px">
           <img src="images/minus.png" name="image1" id="feature__result" align="middle" onclick="toggleDiv(this);"></img>
           <img src="images/warning.png" id="feature_img" align="middle" alt="Begin" />
-          <b>Perform at least one GetFeatureInfo request</b><xsl:text>&#xa;(</xsl:text>
-            <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=17">View Details</a>
-            <xsl:text>)</xsl:text>
+          <b>Perform at least one GetFeatureInfo request</b>
+          <xsl:text>&#xa;(</xsl:text>
+          <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=17">View Details</a>
+          <xsl:text>)</xsl:text>
         </div> 
         <div id="feature_result" style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;">
           <p id="18" style="margin-left:20px; margin-top: 0px;margin-bottom: 0px;"/>
@@ -221,15 +239,15 @@
     </script>
     <!-- getSession and user directory -->
     <script type="text/javascript">
-	function getSession() {
-	    var sessionID = '<xsl:value-of select="$sessionDir"/>';
-	    return sessionID;
-	}
+      function getSession() {
+      var sessionID = '<xsl:value-of select="$sessionDir"/>';
+      return sessionID;
+      }
 
-	function getUser() {
-	    var userName = '<xsl:value-of select="$logdir"/>';
-	    return userName.split("users/")[1];
-	}
+      function getUser() {
+      var userName = '<xsl:value-of select="$logdir"/>';
+      return userName.split("users/")[1];
+      }
     </script>   
     <!-- Displayed the result on viewSessionLog screen dynamically -->
     <script type="text/javascript">   
@@ -391,7 +409,7 @@
       <table id="summary" border="0" cellpadding="4">
         <tr>
           <th align="left" colspan="8" 
-                        style="font-family: sans-serif; color: #000099; background:#ccffff">Summary of results</th>
+              style="font-family: sans-serif; color: #000099; background:#ccffff">Summary of results</th>
         </tr>
         <tr>
           <td>
@@ -417,18 +435,33 @@
           </td>
           <td id="nPass" align="center" bgcolor="#00FF00">
             <xsl:if test="count($coverage-results//param) > 0">
-              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml')))">
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml'))))">
                 <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+1)"/>
               </xsl:if>
-              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml')))">
-                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+1)"/>
-              </xsl:if>
-              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml')))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml'))))">
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml')))">
                 <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+2)"/>
               </xsl:if>
-              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml')))">
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml'))))">
+                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+1)"/>
+              </xsl:if>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml')))">
+                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+2)"/>
+              </xsl:if>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml')))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))))">
+                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+2)"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml')))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml'))))">
                 <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value))"/>
-              </xsl:if>     
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml'))))">
+                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+1)"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml')))">
+                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+1)"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml')))">
+                <xsl:value-of select="16-(count($coverage-results//param[@name='layers']/value)+2)"/>
+              </xsl:if>        
             </xsl:if>       
           </td>
           <td id="nContinue" align="center" bgcolor="#FFFF00">
@@ -445,18 +478,33 @@
           </td>
           <td id="nFail" align="center" bgcolor="#FF0000">
             <xsl:if test="count($coverage-results//param) > 0">
-              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml')))">
-                <xsl:value-of select="count($coverage-results//param[@name='layers']/value)+1"/>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml'))))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+1)"/>
               </xsl:if>
-              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml')))">
-                <xsl:value-of select="count($coverage-results//param[@name='layers']/value)+1"/>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml')))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+2)"/>
               </xsl:if>
-              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml')))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml'))))">
-                <xsl:value-of select="count($coverage-results//param[@name='layers']/value)+2"/>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml'))))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+1)"/>
               </xsl:if>
-              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfo.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilities.xml')))">
-                <xsl:value-of select="count($coverage-results//param[@name='layers']/value)"/>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml')))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+2)"/>
               </xsl:if>
+              <xsl:if test="(not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml')))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+2)"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml')))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml'))))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value))"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml'))))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+1)"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (not(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml')))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml')))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+1)"/>
+              </xsl:if>
+              <xsl:if test="(doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesPass.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetFeatureInfoFail.xml'))) and (doc-available(concat($logdir,'/',$sessionDir,'/test_data/WMS1-GetCapabilitiesFail.xml')))">
+                <xsl:value-of select="(count($coverage-results//param[@name='layers']/value)+2)"/>
+              </xsl:if>   
             </xsl:if>
           </td>
           <td id="nInheritedFail" align="center" bgcolor="#FF0000">

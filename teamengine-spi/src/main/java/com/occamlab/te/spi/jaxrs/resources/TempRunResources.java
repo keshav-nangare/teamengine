@@ -149,12 +149,18 @@ public class TempRunResources {
                 for (int i = 0; i < testDetail.length(); i++) {
 
                   JSONObject test = testDetail.getJSONObject(i);
+                  String fileName;
                   if (object.toString().split(" ")[3].substring(1).equals(test.getString("Name"))) {
-                    fileCreate(new File(pathAddress, test.getString("File")), inputSource);
+                    if("Passed".equals(object.toString().split(" ")[6].substring(1))){
+                    fileName=test.getString("File").split(".xml")[0]+"Pass.xml";
+                    }else{
+                      fileName=test.getString("File").split(".xml")[0]+"Fail.xml";
+                    }
+                    fileCreate(new File(pathAddress, fileName), inputSource);
+                    }
                   }
                 }
               }
-            }
             //Created json array for test which manage test fail and pass including their parents result.
             JSONObject objectEachTest = new JSONObject();
             objectEachTest.put("Indent", testSpacing);
