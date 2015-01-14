@@ -132,35 +132,6 @@ public class TempRunResources {
             if (!outputTestStack.isEmpty()) {
               testParentID = ((Integer) outputTestStack.peek()) - 1;
             }
-            //Use DocumentBuilderFactory for creating a file aacording to test.
-            if (testSpacing == 1) {
-              DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-              factory.setNamespaceAware(true);
-              DocumentBuilder builder = factory.newDocumentBuilder();
-              Document resultDocument = builder.newDocument();
-              Element execution = resultDocument.createElement("execution");
-              resultDocument.appendChild(execution);
-              Source inputSource = new DOMSource(resultDocument);
-
-              JSONObject testName = new JSONObject(testData);
-              JSONArray testDetail = testName.getJSONArray("TestName");
-
-              if (null != testDetail && testDetail.length() > 0) {
-                for (int i = 0; i < testDetail.length(); i++) {
-
-                  JSONObject test = testDetail.getJSONObject(i);
-                  String fileName;
-                  if (object.toString().split(" ")[3].substring(1).equals(test.getString("Name"))) {
-                    if("Passed".equals(object.toString().split(" ")[6].substring(1))){
-                    fileName=test.getString("File").split(".xml")[0]+"Pass.xml";
-                    }else{
-                      fileName=test.getString("File").split(".xml")[0]+"Fail.xml";
-                    }
-                    fileCreate(new File(pathAddress, fileName), inputSource);
-                    }
-                  }
-                }
-              }
             //Created json array for test which manage test fail and pass including their parents result.
             JSONObject objectEachTest = new JSONObject();
             objectEachTest.put("Indent", testSpacing);
@@ -186,6 +157,40 @@ public class TempRunResources {
           }
         }
       }
+      //Use DocumentBuilderFactory for creating a file according to test.
+      if (null != jsonArrTestDetail && jsonArrTestDetail.length() > 0) {
+        for (int index = 0; index < jsonArrTestDetail.length(); index++) {
+          JSONObject objec = jsonArrTestDetail.getJSONObject(index);
+          if ("1".equals(objec.getString("Indent"))) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document resultDocument = builder.newDocument();
+            Element execution = resultDocument.createElement("execution");
+            resultDocument.appendChild(execution);
+            Source inputSource = new DOMSource(resultDocument);
+
+            JSONObject testName = new JSONObject(testData);
+            JSONArray testDetail = testName.getJSONArray("TestName");
+
+            if (null != testDetail && testDetail.length() > 0) {
+              for (int i = 0; i < testDetail.length(); i++) {
+
+                JSONObject test = testDetail.getJSONObject(i);
+                String fileName;
+                if (objec.getString("Name").equals(test.getString("Name"))) {
+                  if ("Passed".equals(objec.getString("Result"))) {
+                    fileName = test.getString("File").split(".xml")[0] + "Pass.xml";
+                  } else {
+                    fileName = test.getString("File").split(".xml")[0] + "Fail.xml";
+                  }
+                  fileCreate(new File(pathAddress, fileName), inputSource);
+                }
+              }
+            }
+          }
+        }
+      }
       jsonObjTestDetail.put("TEST", jsonArrTestDetail);
       return jsonObjTestDetail.toString();
     } catch (Exception e) {
@@ -194,8 +199,10 @@ public class TempRunResources {
       return obj.toString();
     }
   }
- /**
+
+  /**
    * This method is used to create a file.
+   *
    * @param file
    * @param input
    * @throws javax.xml.transform.TransformerConfigurationException
@@ -208,12 +215,14 @@ public class TempRunResources {
     Result output = new StreamResult(report_logs);
     idTransform.transform(input, output);
   }
-/**
- * This method is used to maintain parent Child relationship for test.
- * @param parentID
- * @param jsonArr
- * @throws JSONException 
- */
+
+  /**
+   * This method is used to maintain parent Child relationship for test.
+   *
+   * @param parentID
+   * @param jsonArr
+   * @throws JSONException
+   */
   public void update(int parentID, JSONArray jsonArr) throws JSONException {
     int parentId = parentID;
     while (jsonArr.getJSONObject(parentId - 1).getInt("ParentID") != 0) {
