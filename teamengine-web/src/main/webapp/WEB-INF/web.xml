@@ -16,7 +16,7 @@
   </context-param>
   <context-param>
     <param-name>appVersion</param-name>
-    <param-value>4.0.5</param-value>
+    <param-value>${project.version}</param-value>
   </context-param>
 
   <servlet>

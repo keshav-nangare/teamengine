@@ -35,7 +35,12 @@
         <xsl:text>)</xsl:text>
       </div>
       <div id="WMS-Client_result">
-        <div id="capability" style="margin-left:20px">
+        <div id="Basic" style="margin-left:20px;">
+                <img src="images/minus.png" name="image1" id="Basic__result" align="middle" onclick="toggleDiv(this);"/>
+                <b>Basic Test</b>
+              </div>
+              <div id="Basic_result">
+        <div id="capability" style="margin-left:40px">
           <img src="images/minus.png" name="image1" id="capability__result" align="middle" onclick="toggleDiv(this);"></img>
           <img src="images/warning.png" id="capability_img" align="middle" alt="Begin" />
           <b>Perform at least one GetCapabilities request</b>
@@ -43,11 +48,11 @@
           <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=1">View Details</a>
           <xsl:text>)</xsl:text>
         </div>
-        <div id="capability_result" style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;">
-          <p id="2" style="margin-left:20px; margin-top: 0px;margin-bottom: 0px;"/>
+        <div id="capability_result" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;">
+          <p id="2" style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;"/>
         </div>
                             
-        <div id="map" style="margin-left:20px">
+        <div id="map" style="margin-left:40px">
           <img src="images/minus.png" name="image1" id="map__result" align="middle" onclick="toggleDiv(this);"></img>
           <img src="images/warning.png" id="map_img" align="middle" alt="Begin" />
           <b>Perform GetMap request for all the layers</b>
@@ -57,7 +62,7 @@
         </div>
         <div id="map_result">
                             
-          <div id="Autos" style="margin-left:40px">
+          <div id="Autos" style="margin-left:80px">
             <img src="images/warning.png" id="Autos_img" align="middle" alt="Begin" ></img>
             <b>cite:Autos</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -65,9 +70,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="4" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="4" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="BasicPolygons" style="margin-left:40px">
+          <div id="BasicPolygons" style="margin-left:80px">
             <img src="images/warning.png" id="BasicPolygons_img" align="middle" alt="Begin" ></img>
             <b>cite:BasicPolygons</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -75,9 +80,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="5" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="5" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                                     
-          <div id="Bridges" style="margin-left:40px">
+          <div id="Bridges" style="margin-left:80px">
             <img src="images/warning.png" id="Bridges_img" align="middle" alt="Begin" ></img>
             <b>cite:Bridges</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -85,9 +90,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="6" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="6" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="BuildingCenters" style="margin-left:40px">
+          <div id="BuildingCenters" style="margin-left:80px">
             <img src="images/warning.png" id="BuildingCenters_img" align="middle" alt="Begin" ></img>
             <b>cite:BuildingCenters</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -95,9 +100,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="7" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="7" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="Buildings" style="margin-left:40px">
+          <div id="Buildings" style="margin-left:80px">
             <img src="images/warning.png" id="Buildings_img" align="middle" alt="Begin" ></img>
             <b>cite:Buildings</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -105,9 +110,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="8" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="8" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="DividedRoutes" style="margin-left:40px">
+          <div id="DividedRoutes" style="margin-left:80px">
             <img src="images/warning.png" id="DividedRoutes_img" align="middle" alt="Begin" ></img>
             <b>cite:DividedRoutes</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -115,9 +120,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="9" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="9" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="Forests" style="margin-left:40px">
+          <div id="Forests" style="margin-left:80px">
             <img src="images/warning.png" id="Forests_img" align="middle" alt="Begin" ></img>
             <b>cite:Forests</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -125,9 +130,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="10" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="10" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="Lakes" style="margin-left:40px">
+          <div id="Lakes" style="margin-left:80px">
             <img src="images/warning.png" id="Lakes_img" align="middle" alt="Begin" ></img>
             <b>cite:Lakes</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -135,9 +140,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="11" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="11" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="MapNeatline" style="margin-left:40px">
+          <div id="MapNeatline" style="margin-left:80px">
             <img src="images/warning.png" id="MapNeatline_img" align="middle" alt="Begin" ></img>
             <b>cite:MapNeatline</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -145,9 +150,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="12" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="12" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="NamedPlaces" style="margin-left:40px">
+          <div id="NamedPlaces" style="margin-left:80px">
             <img src="images/warning.png" id="NamedPlaces_img" align="middle" alt="Begin" ></img>
             <b>cite:NamedPlaces</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -155,9 +160,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="13" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="13" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="Ponds" style="margin-left:40px">
+          <div id="Ponds" style="margin-left:80px">
             <img src="images/warning.png" id="Ponds_img" align="middle" alt="Begin" ></img>
             <b>cite:Ponds</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -165,9 +170,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="14" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="14" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="RoadSegments" style="margin-left:40px">
+          <div id="RoadSegments" style="margin-left:80px">
             <img src="images/warning.png" id="RoadSegments_img" align="middle" alt="Begin" ></img>
             <b>cite:RoadSegments</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -175,9 +180,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="15" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="15" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="Streams" style="margin-left:40px">
+          <div id="Streams" style="margin-left:80px">
             <img src="images/warning.png" id="Streams_img" align="middle" alt="Begin" ></img>
             <b>cite:Streams</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -185,9 +190,9 @@
             <xsl:text>)</xsl:text>
           </div>
                             
-          <p id="16" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="16" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                             
-          <div id="Terrain" style="margin-left:40px">
+          <div id="Terrain" style="margin-left:80px">
             <img src="images/warning.png" id="Terrain_img" align="middle" alt="Begin" ></img>
             <b>cite:Terrain</b>
             <xsl:text>&#xa;(</xsl:text>
@@ -195,11 +200,16 @@
             <xsl:text>)</xsl:text>
           </div>
 
-          <p id="17" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
+          <p id="17" style="margin-left:100px; margin-top: 0px;margin-bottom: 0px;"/>
                                 
         </div>
-                            
-        <div id="feature" style="margin-left:20px">
+        </div>
+                <div id="Queryable" style="margin-left:20px;">
+                <img src="images/minus.png" name="image1" id="Queryable__result" align="middle" onclick="toggleDiv(this);"/>
+                <b>Queryable Test</b>
+                 </div>
+                 <div id="Queryable_result">                  
+        <div id="feature" style="margin-left:40px">
           <img src="images/minus.png" name="image1" id="feature__result" align="middle" onclick="toggleDiv(this);"></img>
           <img src="images/warning.png" id="feature_img" align="middle" alt="Begin" />
           <b>Perform at least one GetFeatureInfo request</b>
@@ -207,11 +217,12 @@
           <a href="viewClientTestLog.jsp?test={$sessionDir}&amp;testNo=17">View Details</a>
           <xsl:text>)</xsl:text>
         </div> 
-        <div id="feature_result" style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;">
-          <p id="18" style="margin-left:20px; margin-top: 0px;margin-bottom: 0px;"/>
+                 </div>
+        <div id="feature_result" style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;">
+          <p id="18" style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;"/>
         </div>
       </div>
-      <p id="show"  style="margin-left:40px; margin-top: 0px;margin-bottom: 0px;"/>
+      <p id="show"  style="margin-left:60px; margin-top: 0px;margin-bottom: 0px;"/>
     </fieldset>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"> &#160; </script>
     <!-- Change the image on click show and hide button -->
@@ -387,7 +398,6 @@
                         }
                         if (($('#18').text().indexOf('Request') == -1) || ($('#18').text().indexOf('Failed') != -1)) {
                             $('#feature_img').attr("src", error);
-                            $('#WMS-Client-result').attr("src", error);
                         } else {
                             $('#feature_img').attr("src", success);
                         }

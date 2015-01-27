@@ -112,7 +112,7 @@
           }
           String respondString = "";
           if ((failedCount != 1) && ("".equals(strin)) && (strArray.isEmpty())) {
-            respondString = "<b>Result :</b>All the GetCapabilities, GetMap and GetFeatureInfo requests were run run atleast once and all the requests Passed.";
+            respondString = "<b>Result: </b>All the GetCapabilities, GetMap and GetFeatureInfo requests were run run at least once and all the requests Passed.";
           } else {
             respondString = "<b>Reason For Failure  :</b><br/><br/>";
             if (failedCount == 1) {
@@ -164,7 +164,7 @@
           }
           String respondString = "";
           if ((failedCount != 1) && (strArray.isEmpty())) {
-            respondString = "<b>Result :</b>All the GetMap requests were run atleast once and all the requests Passed.";
+            respondString = "<b>Result: </b>All the GetMap requests were run at least once and all the requests Passed.";
           } else {
             respondString = "<b>Reason For Failure  :</b>";
             if (strArray.size() > 0) {
@@ -219,7 +219,7 @@
           countTestCheck = 0;
           String respondString = "";
           if ((failedCount != 1) && ("".equals(strin)) && (strArray.isEmpty())) {
-            respondString = "<b>Result :</b>All the requests were run atleast once and all the requests Passed.";
+            respondString = "<b>Result: </b>All the requests were run at least once and all the requests Passed.";
           } else {
             respondString = "<b>Reason For Failure  :</b>";
             if (failedCount == 1) {

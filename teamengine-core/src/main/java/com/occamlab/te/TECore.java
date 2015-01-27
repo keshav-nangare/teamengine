@@ -37,14 +37,11 @@ import com.occamlab.te.util.Misc;
 import com.occamlab.te.util.SoapUtils;
 import com.occamlab.te.util.StringUtils;
 import com.occamlab.te.util.URLConnectionUtils;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -73,8 +70,6 @@ import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
@@ -100,7 +95,6 @@ import net.sf.saxon.s9api.XdmSequenceIterator;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
 import net.sf.saxon.trans.XPathException;
-import org.json.simple.JSONObject;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -122,11 +116,11 @@ public class TECore implements Runnable {
   private static final Logger LOGR = Logger.getLogger(TECore.class.getName());
   Engine engine; // Engine object
   Index index;
-  int testCount = 0;
+  public static int testCount = 0;
   int reTestCount = 0;
-  int methodCount = 0;
+  public static int methodCount = 0;
   String testName = "";
-  String nameOfTest = "";
+  public static String nameOfTest = "";
   RuntimeOptions opts;
   String testServletURL = null;
   volatile PrintStream out; // Console destination
@@ -141,15 +135,15 @@ public class TECore implements Runnable {
   String defaultResultName = "Pass"; // Default result name for current test
   int defaultResult = Constants.PASS; // Default result for current test
   ArrayList<String> media = new ArrayList<>();
-  private File dirPath;
-  private int verdict; //Test verdict for current test
+  public File dirPath;
+  public int verdict; //Test verdict for current test
   Document prevLog = null; // Log document for current test from previous test
   // execution (resume and retest modes only)
   // Log document for suite to enable use of getLogCache by profile test
   Document suiteLog = null;
-  String pathURL = "";
-  String assertionMsz = "";
-  String messageTest = "";
+  public static String pathURL = "";
+  public static String assertionMsz = "";
+  public static String messageTest = "";
   static final String INDENT = "   ";
   PrintWriter logger = null; // Logger for current test
   volatile String formHtml; // HTML representation for an active form
@@ -163,12 +157,13 @@ public class TECore implements Runnable {
   volatile boolean threadComplete = false;
   volatile boolean stop = false;
   volatile ByteArrayOutputStream threadOutput;
+  
 
   private static Logger jlogger = Logger.getLogger("com.occamlab.te.TECore");
-  DocumentBuilderFactory icFactory;
-  DocumentBuilder icBuilder;
-  Document doc;
-  Element mainRootElement;
+  public static DocumentBuilderFactory icFactory;
+  public static DocumentBuilder icBuilder;
+  public static Document doc;
+  public static Element mainRootElement;
 
   public TECore() {
 
@@ -387,29 +382,12 @@ public class TECore implements Runnable {
     String name = suite.getPrefix() + ":" + suite.getLocalName();
     out.println("Testing suite " + name + " in " + getMode()
             + " with defaultResult of " + defaultResultName + " ...");
-    //Check Test recording ON or OFF if ON then create a builder for storing the log in single file.
-    if (SetupOptions.recordingInfo(suite.getLocalName())==true) {
-      icFactory = DocumentBuilderFactory.newInstance();
-      try {
-        icBuilder = icFactory.newDocumentBuilder();
-        doc = icBuilder.newDocument();
-        mainRootElement = doc.createElement("Requests");
-        doc.appendChild(mainRootElement);
-      } catch (Exception e) {
-        System.out.println("Error 1: " + e.toString());
-      }
-    }
+    RecordTestResult recordTestResult=new RecordTestResult();
+    recordTestResult.recordingStartCheck(suite);
     setIndentLevel(1);
     int result = execute_test(suite.getStartingTest().toString(), kvps,
             null);
-    File report_path = new File(System.getProperty("PATH") + "/testng");
-    if (!report_path.exists()) {
-      System.out.println("\t\t\tSee the detail test Report " + System.getProperty("PATH") + "/log.xml");
-      File path = new File(System.getProperty("PATH") + "/error_log/log.txt");
-      if (path.exists()) {
-        System.out.println("\t\t\tSee the detail error Report " + System.getProperty("PATH") + "/error_log/log.txt");
-      }
-    }
+    recordTestResult.detailTestPath();
     reTestCount = 0;
     out.print("Suite " + suite.getPrefix() + ":" + suite.getLocalName()
             + " ");
@@ -420,37 +398,7 @@ public class TECore implements Runnable {
     } else {
       out.println("Passed");
     }
-    //Save all recording into file.
-    if (SetupOptions.recordingInfo(suite.getLocalName())==true) {
-      try {
-        DOMSource source = new DOMSource(doc);
-        TransformerFactory xformFactory = TransformerFactory.newInstance();
-        Transformer idTransform = xformFactory.newTransformer();
-        idTransform.setOutputProperty(OutputKeys.METHOD, "xml");
-        idTransform.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        idTransform.setOutputProperty(OutputKeys.INDENT, "yes");
-        OutputStream report_logs = new FileOutputStream(new File(dirPath + Constants.tmp_File));
-        Result output = new StreamResult(report_logs);
-        idTransform.transform(source, output);
-        BufferedReader bufferedReader = null;
-        BufferedWriter bufferedWriter = null;
-        bufferedReader = new BufferedReader(new FileReader(dirPath + Constants.tmp_File));
-        bufferedWriter = new BufferedWriter(new FileWriter(dirPath + Constants.result_logxml));
-        String dataString = "";
-        while ((dataString = bufferedReader.readLine()) != null) {
-          dataString = dataString.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
-          bufferedWriter.write(dataString);
-          bufferedWriter.newLine();
-          bufferedWriter.flush();
-        }
-        File file = new File(dirPath + Constants.tmp_File);
-        if (file.exists()) {
-          file.delete();
-        }
-      } catch (Exception e) {
-        System.out.println("Error 2: " + e.toString());
-      }
-    }
+    recordTestResult.saveRecordingData(suite,dirPath);
   }
 
   public void execute_profile(String profileName, List<String> params,
@@ -647,44 +595,6 @@ public class TECore implements Runnable {
       return "Failed";
     }
   }
-
-  /**
-   * Remove the File if it exist.
-   *
-   * @param media Store array of multiple file path.
-   */
-  public void deleteFile(ArrayList<String> media) {
-    if (!media.isEmpty()) {
-      for (String media1 : media) {
-        File file = new File(media1);
-        if (file.exists()) {
-          file.delete();
-        }
-      }
-    }
-  }
-
-  /**
-   * Convert the data into Node format
-   */
-  private static Node getMethod(Document doc, int methodCount, String assertion, String pathURL, String messageTest) {
-    Element testRequest = doc.createElement("Request");
-    testRequest.setAttribute("no", String.valueOf(methodCount));
-    testRequest.appendChild(getMethodElements(doc, testRequest, "Assertion", assertion));
-    testRequest.appendChild(getMethodElements(doc, testRequest, "URL", pathURL));
-    testRequest.appendChild(getMethodElements(doc, testRequest, "Message", messageTest));
-    return testRequest;
-  }
-
-  /**
-   * Convert the data in form of key-value pair and return in form of Node.
-   */
-  private static Node getMethodElements(Document doc, Element element, String name, String value) {
-    Element node = doc.createElement(name);
-    node.appendChild(doc.createTextNode(value));
-    return node;
-  }
-
   /**
    * Store log into file.
    */
@@ -795,24 +705,8 @@ public class TECore implements Runnable {
     if (opts.getLogDir() != null) {
       printLogger(test,assertion,params);
     }
-    //Store start test detail into file.
-    if ("True".equals(System.getProperty("Record"))) {
-      if (testCount != 0) {
-        JSONObject objBeforeTest = new JSONObject();
-        objBeforeTest.put("Name", test.getName());
-        objBeforeTest.put("Result", "");
-        OutputStreamWriter writerBefore = new OutputStreamWriter(
-                new FileOutputStream(dirPath + Constants.TEST_RESULTTXT, true), "UTF-8");
-        try (BufferedWriter fbwBefore = new BufferedWriter(writerBefore)) {
-          fbwBefore.write(objBeforeTest.toString());
-          fbwBefore.newLine();
-          fbwBefore.close();
-        }
-      } else {
-        testCount = testCount + 1;
-        nameOfTest = test.getName();
-      }
-    }
+    RecordTestResult recordTestResult=new RecordTestResult();
+    recordTestResult.storeStartTestDetail(test,dirPath);
     this.verdict = defaultResult;
     try {
       // Note: Test may alter default result
@@ -881,7 +775,7 @@ public class TECore implements Runnable {
     }
     //Create node which contain all test detail.
     if ("True".equals(System.getProperty("Record"))) {
-      mainRootElement.appendChild(getMethod(doc, methodCount, assertionMsz, pathURL, messageTest));
+      mainRootElement.appendChild(recordTestResult.getMethod());
     }
     assertionMsz = "";
     pathURL = "";
@@ -893,23 +787,7 @@ public class TECore implements Runnable {
     Calendar cal = Calendar.getInstance();
     out.println(indent + "Test " + test.getName() + " "
             + getResultDescription(verdict));
-    //Save test detail into file.
-    if ("True".equals(System.getProperty("Record"))) {
-      if (!nameOfTest.equals(test.getName())) {
-        JSONObject obj = new JSONObject();
-        obj.put("Name", test.getName());
-        obj.put("Result", getResultDescription(verdict));
-        obj.put("Time", dateFormat.format(cal.getTime()));
-        OutputStreamWriter writer = new OutputStreamWriter(
-                new FileOutputStream(dirPath + Constants.TEST_RESULTTXT, true), "UTF-8");
-        try (BufferedWriter fbw = new BufferedWriter(writer)) {
-          fbw.write(obj.toString());
-          fbw.newLine();
-        }
-      } else {
-        testCount = 0;
-      }
-    }
+    recordTestResult.storeFinalTestDetail(test, verdict,dateFormat,cal,dirPath);
     test.setResult(verdict);
     if (LOGR.isLoggable(Level.FINE)) {
       String msg = String.format("Executed test %s - Verdict: %s",

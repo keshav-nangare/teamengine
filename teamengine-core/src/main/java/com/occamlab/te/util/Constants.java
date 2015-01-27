@@ -33,4 +33,9 @@ public class Constants {
   public static final QName LOCALNAME_QNAME = new QName("local-name");
   public static final QName LABEL_QNAME = new QName("label");
   public static final String HEADER_BLOCKS = "header-blocks";
+  public static final String Requests="Requests";
+  public static final String Request="Request";
+  public static final String Assertion="Assertion";
+  public static final String URL="URL";
+  public static final String Message="Message";
 }
