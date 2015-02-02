@@ -1,5 +1,6 @@
 package com.occamlab.te;
 
+import com.occamlab.te.util.Constants;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -106,6 +107,13 @@ public class SetupOptions {
         if (testName.equals(elementStandard.getElementsByTagName("local-name").item(0).getTextContent())) {
           if (null!=elementStandard.getElementsByTagName("record").item(0)) {
             System.setProperty("Record", "True");
+            NodeList rootTestNameArray=elementStandard.getElementsByTagName("test-name");
+            if (null!=rootTestNameArray && rootTestNameArray.getLength() > 0) {
+              for (int counter = 0; counter < rootTestNameArray.getLength(); counter++) {
+                Element rootTestName = (Element) rootTestNameArray.item(counter);
+                TECore.rootTestName.add(rootTestName.getTextContent());
+              }
+            }
             return true;
           }
         }

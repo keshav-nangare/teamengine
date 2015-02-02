@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
  */
 @Path("suiteJson")
 @Produces("application/json")
-public class TempRunResources {
+public class StoreRunResources {
 
   private static final String TE_BASE = "TE_BASE";
 
@@ -152,7 +152,7 @@ public class TempRunResources {
         for (int index = 1; index < jsonArrTestDetail.length(); index++) {
           JSONObject data = jsonArrTestDetail.getJSONObject(index);
           if (data.getString("Result").equals("Failed")) {
-            TempRunResources test = new TempRunResources();
+            StoreRunResources test = new StoreRunResources();
             test.update(data.getInt("ParentID"), jsonArrTestDetail);
           }
         }

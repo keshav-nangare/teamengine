@@ -31,7 +31,7 @@
     exclude-result-prefixes="viewlog encoder file te ctl"
     version="2.0">
     <xsl:import href="../logstyles/default.xsl"/>
-    <xsl:import href="../logstyles/wms-result-log.xsl"/>
+    <xsl:import href="../logstyles/result-log.xsl"/>
     
     <xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
     <xsl:output name="xml" omit-xml-declaration="yes" indent="yes"/>

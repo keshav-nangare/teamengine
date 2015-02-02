@@ -82,13 +82,13 @@
                       failedCount = 1;
                       if (object.get("Name").toString().contains("GetCapabilities")) {
                         if (failGetCapability == 0) {
-                          strTest.add((counter++) + ". Atleast one request of " + object.get("Name").toString().split("one ")[1] + " failed");
+                          strTest.add((counter++) + ". At least one request of " + object.get("node_name").toString() + " request failed");
                           failGetCapability++;
                         }
                       }
                       if (object.get("Name").toString().contains("GetFeatureInfo")) {
                         if (failGetFeatureInfo == 0) {
-                          strTest.add((counter++) + ". Atleast one request of " + object.get("Name").toString().split("one ")[1] + " failed");
+                          strTest.add((counter++) + ". At least one request of " + object.get("node_name").toString() + " request failed");
                           failGetFeatureInfo++;
                         }
                       }
@@ -101,7 +101,7 @@
             }
             if (countTestCheck == 0) {
               if (object.get("Name").toString().contains("GetFeatureInfo") || object.get("Name").toString().contains("GetCapabilities")) {
-                strin = strin + (counter++) + ". You have not exercised at least one " + object.get("Name").toString().split("one ")[1] + "<br/>";
+                strin = strin + (counter++) + ". You have not exercised at least one " + object.get("node_name").toString() + " request.<br/>";
               } else {
                 if (!object.get("Name").toString().contains("GetMap")) {
                   strArray.add(object.get("Name").toString());
@@ -114,7 +114,7 @@
           if ((failedCount != 1) && ("".equals(strin)) && (strArray.isEmpty())) {
             respondString = "<b>Result: </b>All the GetCapabilities, GetMap and GetFeatureInfo requests were run run at least once and all the requests Passed.";
           } else {
-            respondString = "<b>Reason For Failure  :</b><br/><br/>";
+            respondString = "<b>Reason For Failure: </b><br/><br/>";
             if (failedCount == 1) {
               for (String strTest1 : strTest) {
                 respondString = respondString + strTest1 + "<br/>";
@@ -166,7 +166,7 @@
           if ((failedCount != 1) && (strArray.isEmpty())) {
             respondString = "<b>Result: </b>All the GetMap requests were run at least once and all the requests Passed.";
           } else {
-            respondString = "<b>Reason For Failure  :</b>";
+            respondString = "<b>Reason For Failure: </b>";
             if (strArray.size() > 0) {
               respondString = respondString + "You have not exercised the GetMap request to get the layer <br/>";
               for (String strArray1 : strArray) {
@@ -195,13 +195,13 @@
                   failedCount = 1;
                   if (object.get("Name").toString().contains("GetCapabilities")) {
                     if (failGetCapability == 0) {
-                      strTest.add("Atleast one request of " + object.get("Name").toString().split("one ")[1] + " failed");
+                      strTest.add("At least one request of " + object.get("node_name").toString() + " request failed");
                       failGetCapability++;
                     }
                   }
                   if (object.get("Name").toString().contains("GetFeatureInfo")) {
                     if (failGetFeatureInfo == 0) {
-                      strTest.add("Atleast one request of " + object.get("Name").toString().split("one ")[1] + " failed");
+                      strTest.add("At least one request of " + object.get("node_name").toString() + " request failed");
                       failGetFeatureInfo++;
                     }
                   }
@@ -211,7 +211,7 @@
           }
           if (countTestCheck == 0) {
             if (object.get("Name").toString().contains("GetFeatureInfo") || object.get("Name").toString().contains("GetCapabilities")) {
-              strin = strin + "You have not exercised at least one " + object.get("Name").toString().split("one ")[1] + "<br/>";
+              strin = strin + "You have not exercised at least one " + object.get("node_name").toString() + " request.<br/>";
             } else {
               strArray.add(object.get("Name").toString());
             }
@@ -221,7 +221,7 @@
           if ((failedCount != 1) && ("".equals(strin)) && (strArray.isEmpty())) {
             respondString = "<b>Result: </b>All the requests were run at least once and all the requests Passed.";
           } else {
-            respondString = "<b>Reason For Failure  :</b>";
+            respondString = "<b>Reason For Failure: </b>";
             if (failedCount == 1) {
               for (String strTest1 : strTest) {
                 respondString = respondString + strTest1 + "<br/>";
@@ -252,7 +252,16 @@
           File userlog = new File(Conf.getUsersDir(), request.getRemoteUser());
           String test = request.getParameter("test");
           int index = test.indexOf("/");
+          String Clause;
+          String Purpose;
+          String TESTNAME;
           sessionId = (index > 0) ? test.substring(0, index) : test;
+          File fXmlFileClause = new File(userlog + "/" + sessionId + "/test_data/result_clause.xml");
+          DocumentBuilderFactory dbFactoryClause = DocumentBuilderFactory.newInstance();
+          DocumentBuilder dBuilderClause = dbFactoryClause.newDocumentBuilder();
+          Document docClause = dBuilderClause.parse(fXmlFileClause);
+          docClause.getDocumentElement().normalize();
+          NodeList nListClause = docClause.getElementsByTagName("Request");
           Object obj = parser.parse(new FileReader(userlog + "/" + sessionId + "/test_data/finalResult.txt"));
           JSONObject jsonObject = (JSONObject) obj;
           JSONArray resultMsg = (JSONArray) jsonObject.get("Result");
@@ -264,21 +273,70 @@
               String output = rootManager(resultMsg);
               out.println(output);
             } else if ("2".equals(testNo)) {
-              String output = mapLayerManager(resultMsg);
-              out.println(output);
-            } else {
-              String output = subLayerManager(resultMsg, testNo);
-              out.println(output);
-            }
-          } else {
-            String assertionNode = "";
-            String mszNode = "";
-            String urlNode = "";
-            File fXmlFile = new File(userlog + "/" + sessionId + "/test_data/result_log.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fXmlFile);
-            doc.getDocumentElement().normalize();
+              for (int temp = 0; temp < nListClause.getLength(); temp++) {
+                Node nNode = nListClause.item(temp);
+                Element eElement = (Element) nNode;
+                if ("2".equals(eElement.getAttribute("no"))) {
+                  Clause = eElement.getElementsByTagName("Clause").item(0).getTextContent();
+                  Purpose = eElement.getElementsByTagName("Purpose").item(0).getTextContent();
+                  TESTNAME=eElement.getElementsByTagName("TESTNAME").item(0).getTextContent();
+                  if (!("".equals(Clause) && "".equals(Purpose))) {
+                         %><div><b> Test:  </b><%out.println(TESTNAME);%><br/><%
+                  %><div><b> Clause: </b><%         out.println(Clause);%><br/><%
+                   %><div><b> Test Purpose: </b><%        out.println(Purpose);%><br/><%
+
+                        }
+                      }
+                    }
+                    String output = mapLayerManager(resultMsg);
+                    out.println(output);
+                    %></div><%
+                  } else {
+                    if ("1".equals(testNo) || "17".equals(testNo)) {
+                      for (int temp = 0; temp < nListClause.getLength(); temp++) {
+                        Node nNode = nListClause.item(temp);
+                        Element eElement = (Element) nNode;
+                        if ("1".equals(testNo)) {
+                          if ("1".equals(eElement.getAttribute("no"))) {
+                            Clause = eElement.getElementsByTagName("Clause").item(0).getTextContent();
+                            Purpose = eElement.getElementsByTagName("Purpose").item(0).getTextContent();
+                            TESTNAME=eElement.getElementsByTagName("TESTNAME").item(0).getTextContent();
+                            if (!("".equals(Clause) && "".equals(Purpose))) {
+%><div><b> Test:  </b><%out.println(TESTNAME);%><br/><%
+                      %><div><b> Clause: </b><%  out.println(Clause);%><br/><%
+              %><div><b> Test Purpose: </b><%            out.println(Purpose);%><br/><%
+
+                      }
+                    }
+                          %></div><%
+                  } else {
+                    if ("3".equals(eElement.getAttribute("no"))) {
+                      Clause = eElement.getElementsByTagName("Clause").item(0).getTextContent();
+                      Purpose = eElement.getElementsByTagName("Purpose").item(0).getTextContent();
+                      TESTNAME=eElement.getElementsByTagName("TESTNAME").item(0).getTextContent();
+                      if (!("".equals(Clause) && "".equals(Purpose))) {
+                        %><div><b> Test: </b><%out.println(TESTNAME);%><br/><%
+                               %><div><b> Clause: </b><% out.println(Clause);%><br/><%
+                               %><div><b> Test Purpose: </b><% out.println(Purpose);%><br/><%
+
+                              }
+                            }
+                    %></div><%
+                          }
+                        }
+                      }
+                      String output = subLayerManager(resultMsg, testNo);
+                      out.println(output);
+                    }
+                  } else {
+                    String assertionNode = "";
+                    String mszNode = "";
+                    String urlNode = "";
+                    File fXmlFile = new File(userlog + "/" + sessionId + "/test_data/result_log.xml");
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(fXmlFile);
+                    doc.getDocumentElement().normalize();
       %><div><b>Note : </b>The URLs shown are not resolvable, since the proxy endpoint "<%out.print(doc.getElementsByTagName("ctl:url").item(0).getTextContent().split("monitor/")[0] + "monitor/..");%>" is not available anymore after stopping the test.<br/><br/></div><%
         NodeList nList = doc.getElementsByTagName("Request");
         for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -288,13 +346,13 @@
           if (reqNo.equals(eElement.getAttribute("no"))) {
             assertionNode = eElement.getElementsByTagName("Assertion").item(0).getTextContent();
             if (!("".equals(assertionNode))) {
-      %><div style="word-break: break-all;"><b>Assertion :  </b><%out.println(eElement.getElementsByTagName("Assertion").item(0).getTextContent());
+      %><div style="word-break: break-all;"><b>Assertion: </b><%out.println(eElement.getElementsByTagName("Assertion").item(0).getTextContent());
         %><br/><%
             assertionNode = "";
           }
           urlNode = eElement.getElementsByTagName("URL").item(0).getTextContent();
           if (!("".equals(urlNode))) {
-        %><b>URL :  </b><%
+        %><b>URL: </b><%
           NodeList url = eElement.getElementsByTagName("URL");
           for (int j = 0; j < url.getLength(); j++) {
             Node node = url.item(j);
@@ -314,7 +372,7 @@
           }
           mszNode = eElement.getElementsByTagName("Message").item(0).getTextContent();
           if ((!("".equals(mszNode))) && (!(mszNode.startsWith("cite:"))) && (!(result.startsWith("P")))) {
-        %><b>Reason For Failure :  </b><%out.println(eElement.getElementsByTagName("Message").item(0).getTextContent());
+        %><b>Reason For Failure: </b><%out.println(eElement.getElementsByTagName("Message").item(0).getTextContent());
         %><br/><%
             mszNode = "";
           }

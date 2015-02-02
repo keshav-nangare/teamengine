@@ -87,6 +87,22 @@ public class RecordTestResult {
     }
   }
 
+  public void recordingStartClause(SuiteEntry suite) throws Exception{
+    if (null != suite && SetupOptions.recordingInfo(suite.getLocalName()) == true) {
+      //Create a document builder for storing the data.
+      TECore.icFactoryClause = DocumentBuilderFactory.newInstance();
+      try {
+        TECore.icBuilderClause = TECore.icFactoryClause.newDocumentBuilder();
+        // Create a document for storing the xml data
+        TECore.docClause = TECore.icBuilder.newDocument();
+        TECore.mainRootElementClause = TECore.docClause.createElement(Constants.Requests);
+        //Append the data in previous saved data.
+        TECore.docClause.appendChild(TECore.mainRootElementClause);
+      } catch (Exception e) {
+        System.out.println(ERROR_ON__RECORDING_AT_STARTING_ + e.toString());
+      }
+    }
+  }
   /**
    * Save all recording into file.
    *
@@ -127,6 +143,52 @@ public class RecordTestResult {
           bufferedWriter.newLine();
           bufferedWriter.flush();
         }
+        TECore.methodCount=0;
+        TECore.rootTestName.clear();
+        // Check file exists
+        File file = new File(dirPath + Constants.tmp_File);
+        if (file.exists()) {
+          // Delete file if exists
+          file.delete();
+        }
+      } catch (Exception e) {
+        System.out.println(ERROR_ON_SAVE_THE__RECORDING__ + e.toString());
+      }
+    }
+  }
+  
+  public void saveRecordingClause(SuiteEntry suite, File dirPath) throws Exception {
+    if (null != suite && SetupOptions.recordingInfo(suite.getLocalName()) == true) {
+      try {
+        //Create a Source for saving the data.
+        DOMSource source = new DOMSource(TECore.docClause);
+        TransformerFactory xformFactory = TransformerFactory.newInstance();
+        Transformer idTransform = xformFactory.newTransformer();
+        // Declare document is XML
+        idTransform.setOutputProperty(OutputKeys.METHOD, XML);
+        // Declare document standard UTF-8
+        idTransform.setOutputProperty(OutputKeys.ENCODING, UT_F8);
+        // Declare document is well indented
+        idTransform.setOutputProperty(OutputKeys.INDENT, YES);
+        OutputStream report_logs = new FileOutputStream(new File(dirPath + Constants.tmp_File));
+        Result output = new StreamResult(report_logs);
+        //transform the output in xml.
+        idTransform.transform(source, output);
+        BufferedReader bufferedReader = null;
+        BufferedWriter bufferedWriter = null;
+        // Read the xml data from file
+        bufferedReader = new BufferedReader(new FileReader(dirPath + Constants.tmp_File));
+        // Create a xml file for saving the data.
+        bufferedWriter = new BufferedWriter(new FileWriter(dirPath + Constants.result_clausexml));
+        String dataString = "";
+        //Read the data from file.
+        while ((dataString = bufferedReader.readLine()) != null) {
+          // Replace special symbol code to its symbol
+          dataString = dataString.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
+          bufferedWriter.write(dataString);
+          bufferedWriter.newLine();
+          bufferedWriter.flush();
+        }
         // Check file exists
         File file = new File(dirPath + Constants.tmp_File);
         if (file.exists()) {
@@ -152,6 +214,15 @@ public class RecordTestResult {
     return testRequest;
   }
   
+  public static Node getClause() {
+    Element testRequest = TECore.docClause.createElement(Constants.Request);
+    testRequest.setAttribute(NO, String.valueOf(TECore.rootNo));
+    // append child into testRequest
+    testRequest.appendChild(getMethodElements(TECore.docClause, testRequest, Constants.TESTNAME, TECore.TESTNAME));
+    testRequest.appendChild(getMethodElements(TECore.docClause, testRequest, Constants.Clause, TECore.Clause));
+    testRequest.appendChild(getMethodElements(TECore.docClause, testRequest, Constants.Purpose, TECore.Purpose));
+    return testRequest;
+  }
 
   /**
    * Convert the data in form of key-value pair and return in form of Node.

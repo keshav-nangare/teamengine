@@ -87,7 +87,7 @@
   </servlet>
   
   <servlet>
-    <servlet-name>TempRunResources</servlet-name>
+    <servlet-name>StoreRunResources</servlet-name>
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
   </servlet>
   
@@ -130,7 +130,7 @@
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
 <servlet-mapping>
-    <servlet-name>TempRunResources</servlet-name>
+    <servlet-name>StoreRunResources</servlet-name>
     <url-pattern>/restTest/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>

@@ -157,13 +157,21 @@ public class TECore implements Runnable {
   volatile boolean threadComplete = false;
   volatile boolean stop = false;
   volatile ByteArrayOutputStream threadOutput;
-  
 
   private static Logger jlogger = Logger.getLogger("com.occamlab.te.TECore");
   public static DocumentBuilderFactory icFactory;
   public static DocumentBuilder icBuilder;
   public static Document doc;
   public static Element mainRootElement;
+  public static DocumentBuilderFactory icFactoryClause;
+  public static DocumentBuilder icBuilderClause;
+  public static Document docClause;
+  public static Element mainRootElementClause;
+  public static String TESTNAME = "";
+  public static int rootNo = 0;
+  public static String Clause = "";
+  public static String Purpose = "";
+  public static ArrayList<String> rootTestName = new ArrayList<String>();
 
   public TECore() {
 
@@ -244,7 +252,7 @@ public class TECore implements Runnable {
         } else {
           String suiteName = opts.getSuiteName();
           List<String> profiles = opts.getProfiles();
-                    if (suiteName != null || profiles.size() == 0) {
+          if (suiteName != null || profiles.size() == 0) {
             execute_suite(suiteName, params);
           }
           if (profiles.contains("*")) {
@@ -382,8 +390,9 @@ public class TECore implements Runnable {
     String name = suite.getPrefix() + ":" + suite.getLocalName();
     out.println("Testing suite " + name + " in " + getMode()
             + " with defaultResult of " + defaultResultName + " ...");
-    RecordTestResult recordTestResult=new RecordTestResult();
+    RecordTestResult recordTestResult = new RecordTestResult();
     recordTestResult.recordingStartCheck(suite);
+    recordTestResult.recordingStartClause(suite);
     setIndentLevel(1);
     int result = execute_test(suite.getStartingTest().toString(), kvps,
             null);
@@ -398,7 +407,8 @@ public class TECore implements Runnable {
     } else {
       out.println("Passed");
     }
-    recordTestResult.saveRecordingData(suite,dirPath);
+    recordTestResult.saveRecordingClause(suite, dirPath);
+    recordTestResult.saveRecordingData(suite, dirPath);
   }
 
   public void execute_profile(String profileName, List<String> params,
@@ -595,47 +605,48 @@ public class TECore implements Runnable {
       return "Failed";
     }
   }
+
   /**
    * Store log into file.
    */
   private void printLogger(TestEntry test, String assertion, XdmNode params) throws Exception {
     logger = createLog();
-      logger.println("<log>");
-      logger.print("<starttest ");
-      logger.print("local-name=\"" + test.getLocalName() + "\" ");
-      logger.print("prefix=\"" + test.getPrefix() + "\" ");
-      logger.print("namespace-uri=\"" + test.getNamespaceURI() + "\" ");
-      logger.print("type=\"" + test.getType() + "\" ");
-      logger.print("defaultResult=\""
-              + Integer.toString(test.getDefaultResult()) + "\" ");
-      logger.print("path=\"" + testPath + "\" ");
-      logger.println("file=\"" + test.getTemplateFile().getAbsolutePath()
-              + "\">");
-      logger.println("<assertion>" + StringUtils.escapeXML(assertion)
-              + "</assertion>");
-      if (params != null) {
-        logger.println(params.toString());
-        pathURL = params.toString();
-      }
-      if (test.usesContext()) {
-        logger.print("<context label=\""
-                + StringUtils.escapeXML(contextLabel) + "\">");
-        logger.print("<value>");
-        logger.print(test.getContext());
-        logger.print("</value>");
-        logger.println("</context>");
-      }
-      logger.println("</starttest>");
-      logger.flush();
+    logger.println("<log>");
+    logger.print("<starttest ");
+    logger.print("local-name=\"" + test.getLocalName() + "\" ");
+    logger.print("prefix=\"" + test.getPrefix() + "\" ");
+    logger.print("namespace-uri=\"" + test.getNamespaceURI() + "\" ");
+    logger.print("type=\"" + test.getType() + "\" ");
+    logger.print("defaultResult=\""
+            + Integer.toString(test.getDefaultResult()) + "\" ");
+    logger.print("path=\"" + testPath + "\" ");
+    logger.println("file=\"" + test.getTemplateFile().getAbsolutePath()
+            + "\">");
+    logger.println("<assertion>" + StringUtils.escapeXML(assertion)
+            + "</assertion>");
+    if (params != null) {
+      logger.println(params.toString());
+      pathURL = params.toString();
+    }
+    if (test.usesContext()) {
+      logger.print("<context label=\""
+              + StringUtils.escapeXML(contextLabel) + "\">");
+      logger.print("<value>");
+      logger.print(test.getContext());
+      logger.print("</value>");
+      logger.println("</context>");
+    }
+    logger.println("</starttest>");
+    logger.flush();
   }
-  
+
   /**
-   * 
+   *
    * @param test
    * @param params
    * @param context
    * @return
-   * @throws Exception 
+   * @throws Exception
    */
   public int executeTest(TestEntry test, XdmNode params, XPathContext context)
           throws Exception {
@@ -657,10 +668,17 @@ public class TECore implements Runnable {
     out.println("******************************************************************************************************************************");
     out.print("Testing ");
     out.print(test.getName() + " type " + test.getType());
+
     //Check test is contain client test main layer or not
-    if (test.getName().contains(Constants.GET_CAPABILITY) || test.getName().contains(Constants.GET_MAP) || test.getName().contains(Constants.GET_FEATURE_INFO)) {
-      methodCount++;
+    if (null != rootTestName && rootTestName.size() > 0) {
+      Iterator rootTest = rootTestName.iterator();
+      while (rootTest.hasNext()) {
+        if (test.getName().contains(rootTest.next().toString())) {
+          methodCount++;
+        }
+      }
     }
+
     out.print(" in " + getMode() + " with defaultResult "
             + defaultResultName + " ");
     String testName = test.getName() + " type " + test.getType();
@@ -703,10 +721,10 @@ public class TECore implements Runnable {
     assertionMsz = assertion;
     PrintWriter oldLogger = logger;
     if (opts.getLogDir() != null) {
-      printLogger(test,assertion,params);
+      printLogger(test, assertion, params);
     }
-    RecordTestResult recordTestResult=new RecordTestResult();
-    recordTestResult.storeStartTestDetail(test,dirPath);
+    RecordTestResult recordTestResult = new RecordTestResult();
+    recordTestResult.storeStartTestDetail(test, dirPath);
     this.verdict = defaultResult;
     try {
       // Note: Test may alter default result
@@ -787,7 +805,7 @@ public class TECore implements Runnable {
     Calendar cal = Calendar.getInstance();
     out.println(indent + "Test " + test.getName() + " "
             + getResultDescription(verdict));
-    recordTestResult.storeFinalTestDetail(test, verdict,dateFormat,cal,dirPath);
+    recordTestResult.storeFinalTestDetail(test, verdict, dateFormat, cal, dirPath);
     test.setResult(verdict);
     if (LOGR.isLoggable(Level.FINE)) {
       String msg = String.format("Executed test %s - Verdict: %s",
@@ -1436,7 +1454,7 @@ public class TECore implements Runnable {
         }
       }
     }
-    
+
     String logTag = "<request id=\"" + fnPath + id + "\">\n";
     logTag += DomUtils.serializeNode(request) + "\n";
     // if (logger != null) {
@@ -1975,7 +1993,35 @@ public class TECore implements Runnable {
   public Node message(String message, String id) {
     String formatted_message = indent
             + message.trim().replaceAll("\n", "\n" + indent);
-    out.println(formatted_message);
+    String messageTrim = message.trim().replaceAll("\n", "\n" + indent);
+    if (!(messageTrim.contains("Clause") || messageTrim.contains("Purpose") || messageTrim.contains("TestName"))) {
+      out.println(formatted_message);
+    } else {
+      if (messageTrim.contains("TestName")) {
+        TESTNAME = messageTrim.replace("TestName : ", "");
+        if (null != rootTestName && rootTestName.size() > 0) {
+          Iterator rootTest = rootTestName.iterator();
+          int testRootCount = 0;
+          while (rootTest.hasNext()) {
+            if (messageTrim.contains(rootTest.next().toString())) {
+              rootNo = testRootCount;
+            }
+            testRootCount++;
+          }
+        }
+      } else if (messageTrim.contains("Clause")) {
+        Clause = messageTrim.replace("Clause : ", "");;
+      } else {
+        Purpose = messageTrim.replace("Purpose : ", "");;
+      }
+      if ((rootNo != 0) && (!"".equals(Clause)) && (!"".equals(Purpose))) {
+        RecordTestResult recordTestResult = new RecordTestResult();
+        mainRootElementClause.appendChild(recordTestResult.getClause());
+        Clause = "";
+        Purpose = "";
+        rootNo = 0;
+      }
+    }
     messageTest = message;
     if (logger != null) {
       logger.println("<message id=\"" + id + "\"><![CDATA[" + message
