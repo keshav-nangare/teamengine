@@ -12,8 +12,8 @@
 
   <name>TEAM Engine - Service Providers</name>
   <description>
-  Provides various capabilities such as support for alternative test runners 
-  and a REST API that exposes endpoints for executing test suites.
+    Provides various capabilities such as support for alternative test runners 
+    and a REST API that exposes endpoints for executing test suites.
   </description>
 
   <developers>
@@ -63,6 +63,11 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.0.1</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey.contribs</groupId>
+      <artifactId>jersey-multipart</artifactId>
+      <version>1.18.1</version>
     </dependency>
   </dependencies>
 
