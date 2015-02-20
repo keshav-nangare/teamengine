@@ -140,7 +140,7 @@ if (!entityBody.exists() || entityBody.length() == 0) {
             msg.append("Entity media type: " + this.headers.getMediaType());
             msg.append("File location: " + entityBody.getAbsolutePath());
             LOGR.fine(msg.toString());
-		  }
+	}
         
         if(null != schBody){
         if (!schBody.exists() || schBody.length() == 0) {
