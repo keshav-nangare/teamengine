@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.opengis.cite</groupId>
     <artifactId>teamengine</artifactId>
-    <version>4.0.6</version>
+    <version>4.0.5</version>
   </parent>
   <groupId>org.opengis.cite.teamengine</groupId>
   <artifactId>teamengine-resources</artifactId>
@@ -14,6 +14,7 @@
   This resource bundle includes various file system resources that are shared 
   between modules: stylesheets, schemas, and common CTL scripts.
   </description>
+  <url>https://github.com/opengeospatial/teamengine</url>
 
   <build>
     <plugins>

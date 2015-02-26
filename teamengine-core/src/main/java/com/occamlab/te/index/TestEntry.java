@@ -84,8 +84,4 @@ public class TestEntry extends TemplateEntry {
     public void setAssertion(String assertion) {
         this.assertion = assertion;
     }
-
-    public String toString() {
-        return super.toString() + "[result=" + this.result + "]"; 
-    }
 }

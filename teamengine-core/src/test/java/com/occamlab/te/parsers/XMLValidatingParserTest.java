@@ -1,27 +1,21 @@
 package com.occamlab.te.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.hamcrest.core.StringContains;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+
+import static org.junit.Assert.*;
 
 public class XMLValidatingParserTest {
 
@@ -78,63 +72,34 @@ public class XMLValidatingParserTest {
                 strWriter.toString().isEmpty());
     }
 
-    @Test
-    public void validateWithNullSchemaListAndNoSchemaLocation()
-            throws SAXException, IOException {
-        Document doc = docBuilder.parse(getClass().getResourceAsStream(
-                "/ipo.xml"));
-        XmlErrorHandler errHandler = new XmlErrorHandler();
-        XMLValidatingParser iut = new XMLValidatingParser();
-        iut.validateAgainstXMLSchemaList(doc, null, errHandler);
-        assertFalse("Expected one or more validation errors.",
-                errHandler.isEmpty());
-    }
-
-    @Test
-    public void validateWithNullSchemaListAndSchemaLocation()
-            throws SAXException, IOException, URISyntaxException {
-        URL url = getClass().getResource("/ipo-schemaLoc.xml");
-        Document doc = docBuilder.parse(url.openStream());
-        doc.setDocumentURI(url.toString());
-        XmlErrorHandler errHandler = new XmlErrorHandler();
-        XMLValidatingParser iut = new XMLValidatingParser();
-        iut.validateAgainstXMLSchemaList(doc, null, errHandler);
-        List<String> errList = errHandler.toList();
-        assertEquals("Unexpected number of validation errors reported.", 0,
-                errList.size());
-    }
-
-    @Test
-    public void parseWithNullInstructionAndMultipleSchemaLocations()
-            throws Exception {
+    @Test(expected = NullPointerException.class)
+    public void parseWithNullInstructionThrowsNPE() throws IOException,
+            Exception {
         URL docUrl = getClass().getResource("/ipo-multipleSchemaRefs.xml");
-        Document doc = docBuilder.parse(docUrl.openStream());
-        doc.setDocumentURI(docUrl.toString());
         StringWriter strWriter = new StringWriter();
         PrintWriter logger = new PrintWriter(strWriter);
         XMLValidatingParser iut = new XMLValidatingParser();
-        Document result = iut.parse(doc, null, logger);
-        assertNotNull(result);
-        assertTrue("Unexpected validation error(s) were reported.", strWriter
-                .toString().isEmpty());
+        Document result = iut.parse(docUrl.openConnection(), null, logger);
+        assertNull(result);
     }
 
     @Test
-    public void parseWithEmptySchemaListAndMultipleSchemaLocations()
-            throws Exception {
+    public void parseWithoutSchemasReportsNoGrammarFound() throws IOException,
+            Exception {
         Document schemaRefs = docBuilder.parse(getClass().getResourceAsStream(
                 "/conf/no-schema-refs.xml"));
         URL docUrl = getClass().getResource("/ipo-multipleSchemaRefs.xml");
-        Document doc = docBuilder.parse(docUrl.openStream());
-        doc.setDocumentURI(docUrl.toString());
         StringWriter strWriter = new StringWriter();
         PrintWriter logger = new PrintWriter(strWriter);
         XMLValidatingParser iut = new XMLValidatingParser();
-        Document result = iut.parse(doc, schemaRefs.getDocumentElement(),
-                logger);
-        assertNotNull(result);
-        assertTrue("Unexpected validation error(s) were reported.", strWriter
-                .toString().isEmpty());
+        Document result = iut.parse(docUrl.openConnection(),
+                schemaRefs.getDocumentElement(), logger);
+        assertNull(result);
+        assertFalse("Expected validation error(s) but none reported.",
+                strWriter.toString().isEmpty());
+        assertThat("Expected error message containing: no grammar found",
+                strWriter.toString(),
+                StringContains.containsString("no grammar found"));
     }
 
 }

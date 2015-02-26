@@ -49,7 +49,6 @@ public class Test {
     public static final int RETEST_MODE = 1;
     public static final int RESUME_MODE = 2;
     public static final int REDO_FROM_CACHE_MODE = 3;
-
     public static final int DOC_MODE = 4;
     public static final int CHECK_MODE = 5;
     public static final int PRETTYLOG_MODE = 6;
@@ -59,45 +58,86 @@ public class Test {
     public static final String CTL_NS = "http://www.occamlab.com/ctl";
     public static final String CTLP_NS = "http://www.occamlab.com/te/parsers";
 
-    SetupOptions setupOpts;
-    RuntimeOptions runOpts;
-
     /**
-     * Constructs a test executor with default options.
+     * Returns name of mode.
+     * 
+     * @param mode
      */
-    public Test() {
-        this.setupOpts = new SetupOptions();
-        this.runOpts = new RuntimeOptions();
-    }
-
-    void setSetupOptions(SetupOptions setupOpts) {
-        this.setupOpts = setupOpts;
-    }
-
-    void setRuntimeOptions(RuntimeOptions runOpts) {
-        this.runOpts = runOpts;
-    }
-
-    public void executeTest(String relativePathToMainCtl) throws Exception {
-        // File file =Misc.getResourceAsFile(relativePathToMainCtl);
-        String[] arguments = new String[1];
-        arguments[0] = "-source=" + relativePathToMainCtl;
-        execute(arguments);
-    }
-
-    public static void main(String[] args) throws Exception {
-        Test test = new Test();
-        test.execute(args);
+    public static String getModeName(int mode) {
+        switch (mode) {
+        case 0:
+            return "Test Mode";
+        case 1:
+            return "Retest Mode";
+        case 2:
+            return "Resume Mode";
+        case 3:
+            return "Redo From Cache Mode";
+        case 4:
+            return "Doc Mode";
+        case 5:
+            return "Check Mode";
+        case 6:
+            return "Pretty Log Mode";
+        default:
+            return "Invalid Mode";
+        }
     }
 
     /**
-     * Executes a test suite.
+     * Displays startup command syntax.
+     * 
+     * @param cmd
+     *            Name of the startup command (i.e. test.bat or test.sh)
+     */
+    static void syntax(String cmd) {
+        System.out.println();
+        System.out.println("Test mode:");
+        System.out.println("  Use to start a test session.\n");
+        System.out.println("  " + cmd
+                + " [-mode=test] [-source=ctlfile|dir]...");
+        System.out.println("  [-session=session] [-base=baseURI]");
+        System.out
+                .println("    [-suite=qname|-test=qname [@param-name=value] ...] [-profile=qname|*] ...\n");
+        System.out.println("    qname=[namespace_uri,|prefix:]local_name]\n");
+        System.out.println("Resume mode:");
+        System.out
+                .println("  Use to resume a test session that was interrupted before completion.\n");
+        System.out.println("  " + cmd
+                + " -mode=resume -logdir=dir -session=session\n");
+        System.out.println("Retest mode:");
+        System.out.println("  Use to reexecute individual tests.\n");
+        System.out
+                .println("  "
+                        + cmd
+                        + " -mode=retest -logdir=dir -session=session testpath1 [testpath2] ...\n");
+        System.out.println("Doc mode:");
+        System.out.println("  Use to generate documentation of tests.\n");
+        System.out
+                .println("  "
+                        + cmd
+                        + " -mode=doc -source=<main ctl file> [-suite=[{namespace_uri,|prefix:}]suite_name]\n");
+        System.out.println("PPLogs mode:");
+        System.out
+                .println("  Pretty Print Logs mode is used to generate a readable HTML report of execution.\n");
+        System.out.println("  " + cmd
+                + " -mode=pplogs -logdir=<dir of a session log>  \n");
+        System.out.println("  " + cmd
+                + "-mode=cache -logdir=dir -session=session\n");
+    }
+
+    /**
+     * The main TEAM Engine command line interface.
+     * 
      * 
      * @param args
      *            Command line arguments
      * @throws Exception
      */
-    public void execute(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
+        SetupOptions setupOpts = new SetupOptions();
+        RuntimeOptions runOpts = new RuntimeOptions();
+
         String cmd = "java com.occamlab.te.Test";
         File workDir = setupOpts.getWorkDir();
         runOpts.setWorkDir(workDir);
@@ -284,9 +324,10 @@ public class Test {
                     .getResourceAsFile("com/occamlab/te/web/viewlog.xsl");
             Templates ViewLogTemplates = ViewLog.transformerFactory
                     .newTemplates(new StreamSource(stylesheet));
+            ArrayList tests = new ArrayList();
             File userlog = logDir;
             StringWriter sw = new StringWriter();
-            ViewLog.view_log(userlog, session, new ArrayList<String>(),
+            boolean complete = ViewLog.view_log(userlog, session, tests,
                     ViewLogTemplates, sw);
             boolean hasCache = ViewLog.hasCache();
             if (!hasCache) {
@@ -340,73 +381,5 @@ public class Test {
             return resourceDirs[0];
         }
         return findResourcesDirectory(parent);
-    }
-
-    /**
-     * Displays startup command syntax.
-     * 
-     * @param cmd
-     *            Name of the startup command (i.e. test.bat or test.sh)
-     */
-    static void syntax(String cmd) {
-        System.out.println();
-        System.out.println("Test mode:");
-        System.out.println("  Use to start a test session.\n");
-        System.out.println("  " + cmd
-                + " [-mode=test] [-source=ctlfile|dir]...");
-        System.out.println("  [-session=session] [-base=baseURI]");
-        System.out
-                .println("    [-suite=qname|-test=qname [@param-name=value] ...] [-profile=qname|*] ...\n");
-        System.out.println("    qname=[namespace_uri,|prefix:]local_name]\n");
-        System.out.println("Resume mode:");
-        System.out
-                .println("  Use to resume a test session that was interrupted before completion.\n");
-        System.out.println("  " + cmd
-                + " -mode=resume -logdir=dir -session=session\n");
-        System.out.println("Retest mode:");
-        System.out.println("  Use to reexecute individual tests.\n");
-        System.out
-                .println("  "
-                        + cmd
-                        + " -mode=retest -logdir=dir -session=session testpath1 [testpath2] ...\n");
-        System.out.println("Doc mode:");
-        System.out.println("  Use to generate documentation of tests.\n");
-        System.out
-                .println("  "
-                        + cmd
-                        + " -mode=doc -source=<main ctl file> [-suite=[{namespace_uri,|prefix:}]suite_name]\n");
-        System.out.println("PPLogs mode:");
-        System.out
-                .println("  Pretty Print Logs mode is used to generate a readable HTML report of execution.\n");
-        System.out.println("  " + cmd
-                + " -mode=pplogs -logdir=<dir of a session log>  \n");
-        System.out.println("  " + cmd
-                + "-mode=cache -logdir=dir -session=session\n");
-    }
-
-    /**
-     * Returns name of mode.
-     * 
-     * @param mode
-     */
-    public static String getModeName(int mode) {
-        switch (mode) {
-        case 0:
-            return "Test Mode";
-        case 1:
-            return "Retest Mode";
-        case 2:
-            return "Resume Mode";
-        case 3:
-            return "Redo From Cache Mode";
-        case 4:
-            return "Doc Mode";
-        case 5:
-            return "Check Mode";
-        case 6:
-            return "Pretty Log Mode";
-        default:
-            return "Invalid Mode";
-        }
     }
 }

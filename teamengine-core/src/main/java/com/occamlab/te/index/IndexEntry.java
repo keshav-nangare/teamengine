@@ -49,11 +49,4 @@ public class IndexEntry implements NamedEntry {
     public String getId() {
         return "{" + qname.getNamespaceURI() + "}" + qname.getLocalPart();
     }
-
-    public String toString() {
-        if (qname == null) {
-            return super.toString();
-        }
-        return qname.toString();
-    }
 }
