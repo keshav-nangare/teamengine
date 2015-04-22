@@ -67,8 +67,6 @@
             if (new File(new File(userdir, dirs[i]), "session.xml").exists()) {
               TestSession s = new TestSession();
               s.load(userdir, dirs[i]);
-              
-              System.out.println("Directory "+i+" :"+userdir+" :"+dirs[i]);
               out.println("<option value='"+s.getSessionId()+"'>"+s.getSessionId()+"</option>");
             }
           }
