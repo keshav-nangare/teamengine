@@ -73,6 +73,8 @@ public void jspInit() {
 			</table>
 			<br/>
 			<a href="createSession.jsp">Create a new session</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="manageSessions.jsp">Delete session</a>
 		</p>
 		<%@ include file="footer.jsp" %>
 	</body>
