@@ -19,8 +19,8 @@ import org.xml.sax.SAXException;
  * Provides static configuration settings. The {@code TE_BASE} system property
  * or environment variable specifies the location of the main configuration
  * directory that contains several essential sub-directories.
- *
- * <p>
+ * 
+* <p>
  *
  * <pre>
  * TE_BASE
@@ -32,13 +32,15 @@ import org.xml.sax.SAXException;
  *      |-- {username1}/
  *      +-- {usernameN}/
  * </pre>
- *
- * </p>
- *
- */
+ * 
+* </p>
+ * 
+*/
 public class SetupOptions {
   public static final String TE_BASE = "TE_BASE";
+  public static final String USERS = "USERS";
   private static File teBaseDir = getBaseConfigDirectory();
+  private static File teUserDir = getUserConfigDirectory();
   boolean validate = true;
   boolean preload = false;
   File workDir = null;
@@ -62,8 +64,8 @@ public class SetupOptions {
      * a system property or 2) an environment variable named {@value #TE_BASE}.
      * Finally, if neither is set then the "teamengine" subdirectory is created
      * in the user home directory (${user.home}/teamengine).
-   *
-   * @return A File denoting the location of the base configuration directory.
+   *   
+* @return A File denoting the location of the base configuration directory.
    */
   public static File getBaseConfigDirectory() {
     if (null != teBaseDir) {
@@ -87,9 +89,36 @@ public class SetupOptions {
   }
 
   /**
+   * Determines the location of the USERS directory by looking for either 1) a
+   * system property or 2) an environment variable named {@value #USERS}.
+   * Finally, if neither is set then the "TE_BASE" subdirectory is created.
+   *   
+* @return A File denoting the location of the base configuration directory.
+   */
+  public static File getUserConfigDirectory() {
+    if (null != teUserDir) {
+      return teUserDir;
+    }
+    String basePath = System.getProperty(USERS);
+    if (null == basePath) {
+      basePath = System.getenv(USERS);
+    }
+    if (null == basePath) {
+      basePath = getBaseConfigDirectory().toString();
+    }
+    File baseDir = new File(basePath);
+    if (!baseDir.isDirectory()) {
+      baseDir.mkdirs();
+    }
+    Logger.getLogger(SetupOptions.class.getName()).log(Level.CONFIG,
+            "Using USERS at " + baseDir);
+    return baseDir;
+  }
+
+  /**
    * Determine the test recording is on or off.
    * @param testName
-   * @return 
+   * @return
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -98,28 +127,28 @@ public class SetupOptions {
     TECore.rootTestName.clear();
     String path = getBaseConfigDirectory() + "/config.xml";
     if (new File(path).exists()) {
-        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = db.parse(path);
-        NodeList nodeListForStandardTag = doc.getElementsByTagName("standard");
+      DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      Document doc = db.parse(path);
+      NodeList nodeListForStandardTag = doc.getElementsByTagName("standard");
         if (null!=nodeListForStandardTag && nodeListForStandardTag.getLength() > 0) {
-          for (int i = 0; i < nodeListForStandardTag.getLength(); i++) {
-            Element elementStandard = (Element) nodeListForStandardTag.item(i);
-            if (testName.equals(elementStandard.getElementsByTagName("local-name").item(0).getTextContent())) {
+        for (int i = 0; i < nodeListForStandardTag.getLength(); i++) {
+          Element elementStandard = (Element) nodeListForStandardTag.item(i);
+          if (testName.equals(elementStandard.getElementsByTagName("local-name").item(0).getTextContent())) {
               if (null!=elementStandard.getElementsByTagName("record").item(0)) {
-                System.setProperty("Record", "True");
+              System.setProperty("Record", "True");
                 NodeList rootTestNameArray=elementStandard.getElementsByTagName("test-name");
                 if (null!=rootTestNameArray && rootTestNameArray.getLength() > 0) {
-                  for (int counter = 0; counter < rootTestNameArray.getLength(); counter++) {
-                    Element rootTestName = (Element) rootTestNameArray.item(counter);
-                    TECore.rootTestName.add(rootTestName.getTextContent());
-                  }
+                for (int counter = 0; counter < rootTestNameArray.getLength(); counter++) {
+                  Element rootTestName = (Element) rootTestNameArray.item(counter);
+                  TECore.rootTestName.add(rootTestName.getTextContent());
                 }
-                return true;
               }
+              return true;
             }
-    
           }
+    
         }
+      }
     }
     System.setProperty("Record", "False");
     return false;
@@ -135,7 +164,7 @@ public class SetupOptions {
 
   /**
    * Returns the location of the work directory (TE_BASE/work).
-   *
+   *   
      * @return A File denoting a directory location; it is created if it does
      *         not exist.
    */
@@ -154,8 +183,8 @@ public class SetupOptions {
   /**
      * Returns a list of file system resources (directories and files)
      * containing CTL test scripts.
-   *
-   * @return A List containing one or more File references (TE_BASE/scripts is
+   *   
+* @return A List containing one or more File references (TE_BASE/scripts is
      *         the default location).
    */
   public List<File> getSources() {
@@ -164,7 +193,7 @@ public class SetupOptions {
 
   /**
    * Adds a file system resource to the collection of known scripts.
-   *
+   *   
      * @param source
      *            A File object representing a file or directory.
    */
