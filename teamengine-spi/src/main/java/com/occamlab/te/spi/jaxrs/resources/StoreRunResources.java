@@ -37,8 +37,8 @@ import org.w3c.dom.Element;
  * A controller resource that provides the results of a test run. An XML
  * representation of the results is obtained using HTTP/1.1 methods in accord
  * with the JAX-RS 1.1 specification (JSR 311).
- *
- * @see <a href="http://jcp.org/en/jsr/detail?id=311">JSR 311</a>
+ * 
+* @see <a href="http://jcp.org/en/jsr/detail?id=311">JSR 311</a>
  */
 @Path("suiteJson")
 @Produces("application/json")
@@ -50,8 +50,8 @@ public class StoreRunResources {
    * Processes a request submitted using the POST method. The test run arguments
    * are specified in the query component of the Request-URI as a sequence of
    * key-value pairs.
-   *
-   * @param userId
+   *   
+* @param userId
    * @param sessionID
    * @param testData
    * @return
@@ -65,24 +65,24 @@ public class StoreRunResources {
           @QueryParam("sessionID") String sessionID, String testData) throws IOException, JSONException {
     JSONObject jsonObjTestDetail = new JSONObject();
     JSONArray jsonArrTestDetail = new JSONArray();
-    // Get TE_Base Directory path.
-    File basePath=SetupOptions.getBaseConfigDirectory();
+// Get TE_Base Directory path.
+    File basePath=SetupOptions.getUserConfigDirectory();
     String pathAddress = basePath + "/users/" + userId + "/" + sessionID + "/test_data";
     int testCount = 1;
     int runTestId = 1;
     Stack runTestStack = new Stack();
     Stack traverseTestStack = new Stack();
     Stack outputTestStack = new Stack();
-    // Read the test result from file.
+// Read the test result from file.
     try {
       InputStream inputStreamDirectory = new FileInputStream(new File(pathAddress + "/test_result.txt"));
       BufferedReader dataReader = new BufferedReader(new InputStreamReader(inputStreamDirectory));
       String lineReader;
-      // Used Buffered Reader to read file line by line.
+// Used Buffered Reader to read file line by line.
       while ((lineReader = dataReader.readLine()) != null) {
         JSONObject subTestLayerJsonObject = new JSONObject(lineReader);
         String jsonResult = (String) subTestLayerJsonObject.get("Result");
-        //Check test start or end.
+//Check test start or end.
         if ("".equals(jsonResult)) {
           runTestStack.push(testCount + " " + subTestLayerJsonObject.get("Name"));
           testCount++;
@@ -104,11 +104,11 @@ public class StoreRunResources {
       int testParentID = 1;
       int testSpacing = 1;
       try {
-        //Check Stack is empty or not.
+//Check Stack is empty or not.
         if ((null != runTestStack) && (!runTestStack.isEmpty())) {
-          //Traverse stack and get the data from stack
+//Traverse stack and get the data from stack
           for (int index = 0; index < runTestStack.size(); index++) {
-            //Convert stack data into Object.
+//Convert stack data into Object.
             Object object = runTestStack.get(index);
             testSpacing = Integer.parseInt(object.toString().split(" ")[0]);
 
@@ -130,7 +130,7 @@ public class StoreRunResources {
             if (!outputTestStack.isEmpty()) {
               testParentID = ((Integer) outputTestStack.peek()) - 1;
             }
-            //Created json array for test which manage test fail and pass including their parents result.
+//Created json array for test which manage test fail and pass including their parents result.
             JSONObject objectEachTest = new JSONObject();
             objectEachTest.put("Indent", testSpacing);
             objectEachTest.put("Name", object.toString().split(" ")[3].substring(1));
@@ -155,7 +155,7 @@ public class StoreRunResources {
           }
         }
       }
-      //Use DocumentBuilderFactory for creating a file according to test.
+//Use DocumentBuilderFactory for creating a file according to test.
       if (null != jsonArrTestDetail && jsonArrTestDetail.length() > 0) {
         for (int index = 0; index < jsonArrTestDetail.length(); index++) {
           JSONObject objec = jsonArrTestDetail.getJSONObject(index);
@@ -200,8 +200,8 @@ public class StoreRunResources {
 
   /**
    * This method is used to create a file.
-   *
-   * @param file
+   *   
+* @param file
    * @param input
    * @throws javax.xml.transform.TransformerConfigurationException
    * @throws java.io.FileNotFoundException
@@ -216,8 +216,8 @@ public class StoreRunResources {
 
   /**
    * This method is used to maintain parent Child relationship for test.
-   *
-   * @param parentID
+   *   
+* @param parentID
    * @param jsonArr
    * @throws JSONException
    */

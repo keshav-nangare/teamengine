@@ -31,8 +31,8 @@ import org.xml.sax.SAXException;
  * A controller resource that provides the results of a test run. An XML
  * representation of the results is obtained using HTTP/1.1 methods in accord
  * with the JAX-RS 1.1 specification (JSR 311).
- *
- * @see <a href="http://jcp.org/en/jsr/detail?id=311">JSR 311</a>
+ * 
+* @see <a href="http://jcp.org/en/jsr/detail?id=311">JSR 311</a>
  */
 @Path("suiteMap")
 @Produces("application/json")
@@ -44,8 +44,8 @@ public class TestMapResources {
    * Processes a request submitted using the GET method. The test run arguments
    * are specified in the query component of the Request-URI as a sequence of
    * key-value pairs.
-   *
-   * @param userId
+   *   
+* @param userId
    * @param sessionID
    * @return
    * @throws java.io.IOException
@@ -57,8 +57,8 @@ public class TestMapResources {
   public String handleGet(
           @QueryParam("userID") String userId,
           @QueryParam("sessionID") String sessionID) throws IOException, JSONException, ParserConfigurationException, SAXException {
-
-    File basePath=SetupOptions.getBaseConfigDirectory();
+    
+    File basePath = SetupOptions.getUserConfigDirectory();
     String pathAddress = basePath + "/users/" + userId + "/" + sessionID + "/test_data";
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -69,7 +69,7 @@ public class TestMapResources {
 //Get Node list from xml file.
     NodeList listOfPersons = mapLayerDocument.getElementsByTagName("value");
 
-//Get the name of each layer from nodelist and inserting into stack. 
+//Get the name of each layer from nodelist and inserting into stack.
     Stack mapLayerTestDetail = new Stack();
     if (null != listOfPersons && listOfPersons.getLength() > 0) {
       for (int index = 0; index < listOfPersons.getLength(); index++) {
@@ -94,8 +94,8 @@ public class TestMapResources {
    * Processes a request submitted using the POST method. The test run arguments
    * are specified in the query component of the Request-URI as a sequence of
    * key-value pairs.
-   *
-   * @param userId
+   *   
+* @param userId
    * @param sessionID
    * @param data
    * @throws java.io.IOException
@@ -108,7 +108,7 @@ public class TestMapResources {
   @Consumes({MediaType.TEXT_PLAIN})
   public void handlepost(@QueryParam("userID") String userId,
           @QueryParam("sessionID") String sessionID, String data) throws ParserConfigurationException, TransformerException, TransformerConfigurationException, FileNotFoundException, IOException {
-    File basePath=SetupOptions.getBaseConfigDirectory();
+    File basePath = SetupOptions.getUserConfigDirectory();
 // Save data into file which comes through Rest end point.
     String pathAddress = basePath + "/users/" + userId + "/" + sessionID + "/test_data";
     File fulePath = new File(pathAddress, "/finalResult.txt");
