@@ -99,9 +99,15 @@ public class SetupOptions {
     if (null != teUserDir) {
       return teUserDir;
     }
-    String basePath = System.getProperty(USERS);
+    String basePath = null;
+    if(null!=System.getProperty(USERS)){
+      basePath=System.getProperty(USERS).split("/users")[0];
+    }
+    
     if (null == basePath) {
-      basePath = System.getenv(USERS);
+      if(null!=System.getenv(USERS)){
+        basePath = System.getenv(USERS).split("/users")[0];
+      }
     }
     if (null == basePath) {
       basePath = getBaseConfigDirectory().toString();

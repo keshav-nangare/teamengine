@@ -65,9 +65,9 @@ public class UserFilesRealm extends RealmBase {
     File usersdir = null;
     if (null == usersdir) {
       if (null != System.getProperty("USERS")) {
-        usersdir = new File(System.getProperty("USERS"), "users");
+        usersdir = new File(System.getProperty("USERS"));
       } else if (null != System.getenv("USERS")) {
-        usersdir = new File(System.getenv("USERS"), "users");
+        usersdir = new File(System.getenv("USERS"));
       } else if (null != System.getProperty("TE_BASE")) {
         usersdir = new File(System.getProperty("TE_BASE"), "users");
       } else {

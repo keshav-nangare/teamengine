@@ -124,9 +124,9 @@ public class TestServlet extends HttpServlet {
       String aliasesPath = ((Element) ndlContext.item(0)).getAttribute("aliases");
       String userPath;
       if (null != System.getProperty("USERS")) {
-        userPath = System.getProperty("USERS") + "/users";
+        userPath = System.getProperty("USERS");
       } else if (null != System.getenv("USERS")) {
-        userPath = System.getenv("USERS") + "/users";
+        userPath = System.getenv("USERS");
       } else if (null != System.getProperty("TE_BASE")) {
         userPath = System.getProperty("TE_BASE") + "/users";
       } else {
