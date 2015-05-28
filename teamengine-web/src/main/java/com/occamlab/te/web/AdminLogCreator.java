@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,6 +32,8 @@ public class AdminLogCreator {
   int innercountLast3Month;
   int innercountLastYear;
   int innercountAllTime;
+  private static Logger LOGR = Logger
+          .getLogger("com.occamlab.te.web.AdminLogCreator");
 
   public AdminLogCreator() {
     testName = null;
@@ -43,38 +46,46 @@ public class AdminLogCreator {
   public void processForExecutions(String testName, File logDir) throws SAXException, ParserConfigurationException, IOException {
     setTestName(testName);
     String[] rootDirs = logDir.list();
-    Arrays.sort(rootDirs);
-    for (int i = 0; i < rootDirs.length; i++) {
-      String[] dirs = new File(logDir, rootDirs[i]).list();
-      Arrays.sort(dirs);
-      for (int j = 0; j < dirs.length; j++) {
-        if (new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml").exists()) {
-          File sessionFile = new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml");
-          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-          dbf.setNamespaceAware(true);
-          DocumentBuilder db = dbf.newDocumentBuilder();
-          Document doc = db.parse(sessionFile);
-          Element session = (Element) (doc.getElementsByTagName("session").item(0));
-          if ((session.getAttribute("sourcesId")).contains(testName)) {
-            Path file = sessionFile.toPath();
-            BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
-            DateTime fileCreationTime = new DateTime(attr.creationTime().toString());
-            DateTime currentTime = DateTime.now();
-            int countDay = Days.daysBetween(fileCreationTime, currentTime).getDays();
-            if (countDay <= 30) {
-              setCountLastMonth();
-              setCountLast3Month();
-              setCountLastYear();
-              setCountAllTime();
-            } else if (countDay > 30 && countDay <= 90) {
-              setCountLast3Month();
-              setCountLastYear();
-              setCountAllTime();
-            } else if (countDay > 90 && countDay <= 365) {
-              setCountLastYear();
-              setCountAllTime();
-            } else {
-              setCountAllTime();
+    LOGR.info("Root directory of users is located at: " + logDir);
+    if (null != rootDirs && 0 < rootDirs.length) {
+      Arrays.sort(rootDirs);
+      LOGR.info("Total count of users: " + rootDirs.length);
+      for (int i = 0; i < rootDirs.length; i++) {
+        String[] dirs = new File(logDir, rootDirs[i]).list();
+        LOGR.info("Session directory of users is located at: " + logDir + "/" + rootDirs[i]);
+        if (null != dirs && 0 < dirs.length) {
+          Arrays.sort(dirs);
+          LOGR.info("Total count of session: " + dirs.length);
+          for (int j = 0; j < dirs.length; j++) {
+            if (new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml").exists()) {
+              File sessionFile = new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml");
+              DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+              dbf.setNamespaceAware(true);
+              DocumentBuilder db = dbf.newDocumentBuilder();
+              Document doc = db.parse(sessionFile);
+              Element session = (Element) (doc.getElementsByTagName("session").item(0));
+              if ((session.getAttribute("sourcesId")).contains(testName)) {
+                Path file = sessionFile.toPath();
+                BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+                DateTime fileCreationTime = new DateTime(attr.creationTime().toString());
+                DateTime currentTime = DateTime.now();
+                int countDay = Days.daysBetween(fileCreationTime, currentTime).getDays();
+                if (countDay <= 30) {
+                  setCountLastMonth();
+                  setCountLast3Month();
+                  setCountLastYear();
+                  setCountAllTime();
+                } else if (countDay > 30 && countDay <= 90) {
+                  setCountLast3Month();
+                  setCountLastYear();
+                  setCountAllTime();
+                } else if (countDay > 90 && countDay <= 365) {
+                  setCountLastYear();
+                  setCountAllTime();
+                } else {
+                  setCountAllTime();
+                }
+              }
             }
           }
         }
@@ -85,54 +96,62 @@ public class AdminLogCreator {
   public void processForUsers(String testName, File logDir) throws SAXException, ParserConfigurationException, IOException {
     setTestName(testName);
     String[] rootDirs = logDir.list();
-    Arrays.sort(rootDirs);
-    for (int i = 0; i < rootDirs.length; i++) {
-      innercountLastMonth = 0;
-      innercountLast3Month = 0;
-      innercountLastYear = 0;
-      innercountAllTime = 0;
-      String[] dirs = new File(logDir, rootDirs[i]).list();
-      Arrays.sort(dirs);
-      for (int j = 0; j < dirs.length; j++) {
-        if (new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml").exists()) {
-          File sessionFile = new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml");
-          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-          dbf.setNamespaceAware(true);
-          DocumentBuilder db = dbf.newDocumentBuilder();
-          Document doc = db.parse(sessionFile);
-          Element session = (Element) (doc.getElementsByTagName("session").item(0));
-          if ((session.getAttribute("sourcesId")).contains(testName)) {
-            Path file = sessionFile.toPath();
-            BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
-            DateTime fileCreationTime = new DateTime(attr.creationTime().toString());
-            DateTime currentTime = DateTime.now();
-            int countDay = Days.daysBetween(fileCreationTime, currentTime).getDays();
-            if (countDay <= 30) {
-              innercountLastMonth = 1;
-            } else if (countDay > 30 && countDay <= 90) {
-              innercountLast3Month = 1;
-            } else if (countDay > 90 && countDay <= 365) {
-              innercountLastYear = 1;
-            } else {
-              innercountAllTime = 1;
+    LOGR.info("Root directory of users is located at: " + logDir);
+    if (null != rootDirs && 0 < rootDirs.length) {
+      Arrays.sort(rootDirs);
+      LOGR.info("Total count of users: " + rootDirs.length);
+      for (int i = 0; i < rootDirs.length; i++) {
+        innercountLastMonth = 0;
+        innercountLast3Month = 0;
+        innercountLastYear = 0;
+        innercountAllTime = 0;
+        String[] dirs = new File(logDir, rootDirs[i]).list();
+        LOGR.info("Session directory of users is located at: " + logDir + "/" + rootDirs[i]);
+        if (null != dirs && 0 < dirs.length) {
+          Arrays.sort(dirs);
+          LOGR.info("Total count of session: " + dirs.length);
+          for (int j = 0; j < dirs.length; j++) {
+            if (new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml").exists()) {
+              File sessionFile = new File(new File(new File(logDir, rootDirs[i]), dirs[j]), "session.xml");
+              DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+              dbf.setNamespaceAware(true);
+              DocumentBuilder db = dbf.newDocumentBuilder();
+              Document doc = db.parse(sessionFile);
+              Element session = (Element) (doc.getElementsByTagName("session").item(0));
+              if ((session.getAttribute("sourcesId")).contains(testName)) {
+                Path file = sessionFile.toPath();
+                BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+                DateTime fileCreationTime = new DateTime(attr.creationTime().toString());
+                DateTime currentTime = DateTime.now();
+                int countDay = Days.daysBetween(fileCreationTime, currentTime).getDays();
+                if (countDay <= 30) {
+                  innercountLastMonth = 1;
+                } else if (countDay > 30 && countDay <= 90) {
+                  innercountLast3Month = 1;
+                } else if (countDay > 90 && countDay <= 365) {
+                  innercountLastYear = 1;
+                } else {
+                  innercountAllTime = 1;
+                }
+              }
             }
           }
         }
-      }
-      if (innercountLastMonth == 1) {
-        setCountLastMonth();
-        setCountLast3Month();
-        setCountLastYear();
-        setCountAllTime();
-      } else if (innercountLast3Month == 1) {
-        setCountLast3Month();
-        setCountLastYear();
-        setCountAllTime();
-      } else if (innercountLastYear == 1) {
-        setCountLastYear();
-        setCountAllTime();
-      } else if (innercountAllTime == 1) {
-        setCountAllTime();
+        if (innercountLastMonth == 1) {
+          setCountLastMonth();
+          setCountLast3Month();
+          setCountLastYear();
+          setCountAllTime();
+        } else if (innercountLast3Month == 1) {
+          setCountLast3Month();
+          setCountLastYear();
+          setCountAllTime();
+        } else if (innercountLastYear == 1) {
+          setCountLastYear();
+          setCountAllTime();
+        } else if (innercountAllTime == 1) {
+          setCountAllTime();
+        }
       }
     }
   }
@@ -178,10 +197,10 @@ public class AdminLogCreator {
   }
 
   public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException {
-    String testName=args[0];
-    File userDirectory=new File(args[1]);
+    String testName = args[0];
+    File userDirectory = new File(args[1]);
     AdminLogCreator adminLogCreator = new AdminLogCreator();
-    adminLogCreator.processForExecutions(testName,userDirectory);
+    adminLogCreator.processForExecutions(testName, userDirectory);
     System.out.println("Test Statistics by Executions (Sessions)");
     System.out.println("Test Name: " + adminLogCreator.getTestName());
     System.out.println("Last Month: " + adminLogCreator.getCountLastMonth());
@@ -189,7 +208,7 @@ public class AdminLogCreator {
     System.out.println("Last Year: " + adminLogCreator.getCountLastYear());
     System.out.println("All Times: " + adminLogCreator.getCountAllTime());
     adminLogCreator = new AdminLogCreator();
-    adminLogCreator.processForUsers(testName,userDirectory);
+    adminLogCreator.processForUsers(testName, userDirectory);
     System.out.println("Test Statistics by Users");
     System.out.println("Test Name: " + adminLogCreator.getTestName());
     System.out.println("Last Month: " + adminLogCreator.getCountLastMonth());
