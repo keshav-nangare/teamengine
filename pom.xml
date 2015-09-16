@@ -72,24 +72,22 @@
       <url>https://github.com/tanvi-shah</url>
       <timezone>Asia/Kolkata</timezone>
     </developer>
-    
-       <developer>
+    <developer>
       <name>Upendra Sachan</name>
       <url>https://github.com/upendra-sachan</url>
       <timezone>Asia/Kolkata</timezone>
     </developer>  
-     <developer>
+    <developer>
       <name>Andrea Aime</name>
       <url>https://github.com/aaime</url>
       <timezone>Europe/Italy</timezone>
     </developer>
   </developers>
 
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
-    <saxon.version>9.0.0.8</saxon.version>
+    <saxon.version>9.6.0-7</saxon.version>
     <project.version>4.3-SNAPSHOT</project.version>
   </properties>
 
