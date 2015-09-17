@@ -60,13 +60,11 @@ public class Engine {
 
     // Map of loaded executables, ordered by access order
     public Map<String, XsltExecutable> loadedExecutables = Collections
-            .synchronizedMap(new LinkedHashMap<String, XsltExecutable>(256,
-                    0.75f, true));
+            .synchronizedMap(new LinkedHashMap<String, XsltExecutable>(256, 0.75f, true));
 
     public Map<String, TEClassLoader> classLoaders;
 
-    public Engine(Index index, String sourcesName, TEClassLoader cl)
-            throws Exception {
+    public Engine(Index index, String sourcesName, TEClassLoader cl) throws Exception {
         this();
         ArrayList<Index> indexes = new ArrayList<Index>();
         indexes.add(index);
@@ -75,9 +73,7 @@ public class Engine {
         addFunctionLibrary(indexes);
     }
 
-    public Engine(Collection<Index> indexes,
-            Map<String, TEClassLoader> classLoaders, int cacheSize)
-            throws Exception {
+    public Engine(Collection<Index> indexes, Map<String, TEClassLoader> classLoaders, int cacheSize) throws Exception {
         this();
         this.classLoaders = classLoaders;
         if (cacheSize > 0) {
@@ -114,18 +110,22 @@ public class Engine {
         formExecutable = compiler.compile(new StreamSource(is));
     }
 
+    /**
+     * Adds a library of custom Java functions.
+     * 
+     * @param indexes
+     *            A collection of indexes that may contain function entries.
+     */
     public void addFunctionLibrary(Collection<Index> indexes) {
-        // Change the function library to a new library list that includes
-        // our custom java function library
         Configuration config = processor.getUnderlyingConfiguration();
         FunctionLibraryList liblist = new FunctionLibraryList();
         for (Index index : indexes) {
             TEFunctionLibrary telib = new TEFunctionLibrary(config, index);
             liblist.addFunctionLibrary(telib);
         }
-        liblist.addFunctionLibrary(config.getExtensionBinder("java"));
-        config.setExtensionBinder("java", liblist);
-
+        // liblist.addFunctionLibrary(config.getExtensionBinder("java"));
+        // config.setExtensionBinder("java", liblist);
+        config.addExtensionBinders(liblist);
     }
 
     /**
@@ -164,8 +164,7 @@ public class Engine {
         return false;
     }
 
-    public XsltExecutable loadExecutable(TemplateEntry entry, String sourcesName)
-            throws Exception {
+    public XsltExecutable loadExecutable(TemplateEntry entry, String sourcesName) throws Exception {
         String key = sourcesName + "," + entry.getId();
         if (entry instanceof FunctionEntry) {
             key += "_" + Integer.toString(((FunctionEntry) entry).getMinArgs());
@@ -186,8 +185,7 @@ public class Engine {
                     throw e;
                 }
             } catch (SaxonApiException e) {
-                throw new Exception(baos.toString() + e.getMessage(),
-                        e.getCause());
+                throw new Exception(baos.toString() + e.getMessage(), e.getCause());
             } finally {
                 System.setErr(console);
             }

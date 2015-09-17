@@ -66,7 +66,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
-import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -94,7 +93,7 @@ import com.occamlab.te.util.URLConnectionUtils;
 import net.sf.saxon.dom.NodeOverNodeInfo;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.expr.XPathContextMajor;
-import net.sf.saxon.instruct.Executable;
+import net.sf.saxon.expr.instruct.Executable;
 import net.sf.saxon.om.NodeInfo;
 import net.sf.saxon.s9api.Axis;
 import net.sf.saxon.s9api.QName;
@@ -258,8 +257,7 @@ public class TECore implements Runnable {
     XPathContext context = null;
     if (test.usesContext()) {
       XsltExecutable xe = engine.loadExecutable(test, sourcesName);
-      Executable ex = xe.getUnderlyingCompiledStylesheet()
-              .getExecutable();
+      Executable ex = xe.getUnderlyingCompiledStylesheet();
       context = new XPathContextMajor(contextNode.getUnderlyingNode(), ex);
     }
     return context;

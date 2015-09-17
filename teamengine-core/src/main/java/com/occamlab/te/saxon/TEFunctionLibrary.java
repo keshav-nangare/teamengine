@@ -3,10 +3,13 @@ package com.occamlab.te.saxon;
 import java.util.List;
 
 import net.sf.saxon.Configuration;
+import net.sf.saxon.expr.Container;
 import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.StaticContext;
 import net.sf.saxon.functions.FunctionLibrary;
+import net.sf.saxon.om.StandardNames;
 import net.sf.saxon.om.StructuredQName;
+import net.sf.saxon.trans.SymbolicName;
 import net.sf.saxon.trans.XPathException;
 
 import com.occamlab.te.Test;
@@ -22,45 +25,37 @@ public class TEFunctionLibrary implements FunctionLibrary {
         this.index = index;
     }
 
-    public Expression bind(StructuredQName functionName,
-            Expression[] staticArgs, StaticContext env) throws XPathException {
-        if (functionName.getNamespaceURI().equals(Test.TE_NS)
-                && functionName.getLocalName().equals("get-type")) {
-            return new GetTypeFunctionCall(functionName, staticArgs, env);
+    @Override
+    public Expression bind(SymbolicName functionName, Expression[] staticArgs, StaticContext env, Container container)
+            throws XPathException {
+        StructuredQName qName = functionName.getComponentName();
+        if (qName.getURI().equals(Test.TE_NS) && qName.getLocalPart().equals("get-type")) {
+            return new GetTypeFunctionCall(qName, staticArgs, env);
         }
-
-        String key = functionName.getClarkName();
+        String key = qName.getClarkName();
         List<FunctionEntry> functions = index.getFunctions(key);
         int argCount = staticArgs.length;
-
+        Expression expr = null;
         if (functions != null) {
             for (FunctionEntry fe : functions) {
                 if (argCount >= fe.getMinArgs() && argCount <= fe.getMaxArgs()) {
                     if (fe.isJava()) {
-                        TEJavaFunctionCall fc = new TEJavaFunctionCall(fe,
-                                functionName, staticArgs, env);
-                        return fc;
+                        expr = new TEJavaFunctionCall(fe, qName, staticArgs, env);
                     } else {
-                        TEXSLFunctionCall fc = new TEXSLFunctionCall(fe,
-                                functionName, staticArgs, env);
-                        return fc;
+                        expr = new TEXSLFunctionCall(fe, qName, staticArgs, env);
                     }
                 }
             }
         }
-
-        // Just return null rather than throw an exception, because there may be
-        // another function library that supports this function
-        return null;
+        return expr;
     }
 
-    public FunctionLibrary copy() {
-        return new TEFunctionLibrary(config, index);
-    }
-
-    public boolean isAvailable(StructuredQName functionName, int arity) {
-        String key = functionName.getClarkName();
+    @Override
+    public boolean isAvailable(SymbolicName functionName) {
+        StructuredQName qName = functionName.getComponentName();
+        String key = qName.getClarkName();
         List<FunctionEntry> functions = index.getFunctions(key);
+        int arity = functionName.getArity();
         if (functions != null) {
             for (FunctionEntry fe : functions) {
                 if (arity == -1) {
@@ -72,6 +67,19 @@ public class TEFunctionLibrary implements FunctionLibrary {
             }
         }
         return false;
+    }
+
+    public Expression bind(StructuredQName functionQName, Expression[] staticArgs, StaticContext env)
+            throws XPathException {
+        return bind(new SymbolicName(StandardNames.XSL_FUNCTION, functionQName), staticArgs, env, null);
+    }
+
+    public boolean isAvailable(StructuredQName functionQName, int arity) {
+        return isAvailable(new SymbolicName(StandardNames.XSL_FUNCTION, functionQName, arity));
+    }
+
+    public FunctionLibrary copy() {
+        return new TEFunctionLibrary(config, index);
     }
 
 }
