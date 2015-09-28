@@ -716,6 +716,7 @@ public class TECore implements Runnable {
     // Delete files for coverage report.
     if (reTestCount == 0) {
       if (getMode().contains("Retest")) {
+        if(null!=dirPath){
         if (dirPath.isDirectory()) {
           File[] files = dirPath.listFiles();
           if (files != null && files.length > 0) {
@@ -726,6 +727,7 @@ public class TECore implements Runnable {
           dirPath.delete();
         } else {
           dirPath.delete();
+        }
         }
         reTestCount = 1;
       }
