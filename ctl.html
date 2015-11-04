@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20151104" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>TEAM Engine &#x2013; </title>
+    <title>TEAM Engine &#x2013; CTL scripts</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -76,10 +76,12 @@
                 <ul class="nav nav-list">
                     <li class="nav-header">Getting Started</li>
                               
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>Overview</a>
-          </li>
+                          <a href="index.html" title="Overview">
+          <span class="none"></span>
+        Overview</a>
+            </li>
                 
       <li>
   
@@ -103,12 +105,10 @@
         TestNG Framework</a>
             </li>
                 
-      <li>
+      <li class="active">
   
-                          <a href="ctl.html" title="CTL Scripts">
-          <span class="none"></span>
-        CTL Scripts</a>
-            </li>
+            <a href="#"><span class="none"></span>CTL Scripts</a>
+          </li>
                               <li class="nav-header">About</li>
                               
       <li>
@@ -138,26 +138,11 @@
                 
         <div id="bodyColumn"  class="span10" >
                                   
-            <p>The Test, Evaluation, And Measurement (TEAM) Engine is a testing facility that executes test suites written using the OGC Compliance Test Language (CTL) or the <a class="externalLink" href="http://testng.org/">TestNG framework</a>. It is typically used to verify specification compliance and is the official test harness of the <a class="externalLink" href="http://cite.opengeospatial.org/">OGC Compliance Testing Program</a> (CITE).</p>
-<p>The OGC <a class="externalLink" href="http://cite.opengeospatial.org/teamengine/">maintains an installation</a> that is used to certify implementations of various OGC and ISO standards, such as:</p>
-
-<ul>
-  
-<li>Web Feature Service (WFS)</li>
-  
-<li>Catalogue Service (CSW)</li>
-  
-<li>Web Map Service (WMS)</li>
-  
-<li>WMS 1.3 client application</li>
-  
-<li>GML 3.2.1 application schema</li>
-  
-<li>GML 3.2.1 instance document (including a community profile defined in a supplementary Schematron schema)</li>
-  
-<li>KML 2.2</li>
-</ul>
-<p>The source code is available in <a class="externalLink" href="https://github.com/opengeospatial/teamengine">GitHub</a> under the terms of the <a class="externalLink" href="https://github.com/opengeospatial/teamengine/blob/master/LICENSE.txt">Apache 2.0 license</a>. If you have any question or need some help, please consult the <a class="externalLink" href="http://cite.opengeospatial.org/forum">CITE forum</a>.</p>
+            <h1>CTL scripts</h1>
+<p>The OGC test harness is capable of running tests implemented using the CTL (<a class="externalLink" href="http://portal.opengeospatial.org/files/?artifact_id=33085">Compliance Test Language</a>) scripting language developed by the OGC. The CTL grammar can be regarded as a kind of XML-based domain-specific language for defining test suites. A test suite is processed to produce XSLT 2.0 templates that are then executed by the Saxon 9.0 XSLT processor as shown in the following figure.</p>
+<p><b>Figure 1:</b> Executing CTL scripts</p>
+<p><img src="images/ctl-execution.png" alt="Executing CTL scripts" /></p>
+<p>The teamengine-core-\${project.version}-base.zip archive contains a sample test suite in <tt>scripts/note/1.0/ctl/note.ctl</tt>. The OGC compliance testing program also maintains a set of test suites that are publicly available from GitHub at this location: <a class="externalLink" href="https://github.com/opengeospatial">https://github.com/opengeospatial</a>.</p>
                   </div>
             </div>
           </div>
